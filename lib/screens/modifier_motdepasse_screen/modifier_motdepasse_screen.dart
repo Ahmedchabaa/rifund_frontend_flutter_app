@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
+import '../../widgets/app_bar/appbar_title.dart';
+import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/bottomNavBar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -36,7 +38,7 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: theme.colorScheme.primary,
+          backgroundColor: appTheme.whiteA700,
           resizeToAvoidBottomInset: false,
           appBar: _buildAppBar(context),
           body: SizedBox(
@@ -52,9 +54,9 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
                     right: 20.h,
                   ),
                   padding: EdgeInsets.all(26.h),
-                  decoration: AppDecoration.outlineLightgreen600012.copyWith(
-                    borderRadius: BorderRadiusStyle.roundedBorder20,
-                  ),
+                  decoration: AppDecoration.outlinePrimary1.copyWith(
+                  borderRadius: BorderRadiusStyle.roundedBorder20,
+                ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -94,11 +96,10 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 55.v)
                     ],
                   ),
                 ),
-                Spacer()
+                // Spacer()
               ],
             ),
           ),
@@ -107,24 +108,27 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: theme.colorScheme.primary,
-      elevation: 0,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios_outlined,
-          color: Colors.lightGreen.shade600,
-        ),
-        onPressed: () {
-          onTapArrowleftone(context);
-        },
-      ),
-      title: Text(
-        "msg_changer_mot_de_passe".tr,
-        style: CustomTextStyles.titleLargeLightgreen60001,
-      ),
+    return CustomAppBar(
       centerTitle: true,
-      automaticallyImplyLeading: false,
+      title: Row(
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back_ios_outlined, color: Colors.white),
+            onPressed: () {
+              onTapArrowleftone(context);
+            },
+          ),
+          AppbarTitle(
+            text: "msg_changer_mot_de_passe".tr,
+            margin: EdgeInsets.only(
+              left: 50.h,
+              top: 2.v,
+              right: 75.h,
+            ),
+          ),
+        ],
+      ),
+      styleType: Style.bgFill_1,
     );
   }
 
@@ -186,7 +190,8 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
       width: 97.h,
       text: "lbl_modifier".tr,
       margin: EdgeInsets.only(top: 1.v),
-      buttonTextStyle: CustomTextStyles.titleSmallPrimary,
+      buttonTextStyle:
+          CustomTextStyles.titleSmallPrimary.copyWith(color: Colors.white),
     );
   }
 

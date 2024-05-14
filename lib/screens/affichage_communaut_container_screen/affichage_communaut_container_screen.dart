@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
 
+import '../../core/app_export.dart';
 import '../../widgets/bottomNavBar.dart';
-import 'models/affichage_communaut_container_model.dart';
 import 'provider/affichage_communaut_container_provider.dart';
 
 class AffichageCommunautContainerScreen extends StatefulWidget {
@@ -32,26 +31,21 @@ class AffichageCommunautContainerScreenState
   void initState() {
     super.initState();
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: theme.colorScheme.primary,
+        backgroundColor: appTheme.whiteA700,
         body: SizedBox(),
-      bottomNavigationBar: BottomNavBar(),
+        bottomNavigationBar: BottomNavBar(),
       ),
     );
-    
   }
 
   /// Section Widget
 
   ///Handling route based on bottom click actions
 
-
   ///Handling page based on route
- 
 }
-

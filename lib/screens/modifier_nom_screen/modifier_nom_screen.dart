@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
+import '../../widgets/app_bar/appbar_title.dart';
+import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/bottomNavBar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -35,7 +37,7 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: theme.colorScheme.primary,
+        backgroundColor: appTheme.whiteA700,
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context), // Ajout de l'app bar ici
         body: Container(
@@ -62,26 +64,51 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
     );
   }
 
+  // PreferredSizeWidget _buildAppBar(BuildContext context) {
+  //   return AppBar(
+  //     backgroundColor: theme.colorScheme.primary,
+  //     elevation: 0,
+  //     leading: IconButton(
+  //       icon: Icon(
+  //         Icons.arrow_back_ios_outlined,
+  //         color: Colors.lightGreen.shade600,
+  //       ),
+  //       onPressed: () {
+  //         onTapImgArrowleftone(context);
+  //       },
+  //     ),
+  //     title: Text(
+  //       "msg_changer_nom_d_utilisateur".tr,
+  //       style: CustomTextStyles.titleLargeLightgreen60001,
+  //     ),
+  //     centerTitle: true,
+  //     automaticallyImplyLeading:
+  //         false, // Désactive le bouton de retour automatique
+  //   );
+  // }
+
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: theme.colorScheme.primary,
-      elevation: 0,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios_outlined,
-          color: Colors.lightGreen.shade600,
-        ),
-        onPressed: () {
-          onTapImgArrowleftone(context);
-        },
-      ),
-      title: Text(
-        "msg_changer_nom_d_utilisateur".tr,
-        style: CustomTextStyles.titleLargeLightgreen60001,
-      ),
+    return CustomAppBar(
       centerTitle: true,
-      automaticallyImplyLeading:
-          false, // Désactive le bouton de retour automatique
+      title: Row(
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back_ios_outlined, color: Colors.white),
+            onPressed: () {
+              onTapArrowleftone(context);
+            },
+          ),
+          AppbarTitle(
+            text: "msg_changer_nom_d_utilisateur".tr,
+            margin: EdgeInsets.only(
+              left: 40.h,
+              top: 2.v,
+              right: 55.h,
+            ),
+          ),
+        ],
+      ),
+      styleType: Style.bgFill_1,
     );
   }
 
@@ -135,7 +162,8 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
                   width: 97.h,
                   text: "lbl_modifier".tr,
                   margin: EdgeInsets.only(top: 1.v),
-                  buttonTextStyle: CustomTextStyles.titleSmallPrimary,
+                  buttonTextStyle: CustomTextStyles.titleSmallPrimary
+                      .copyWith(color: Colors.white),
                 ),
                 CustomElevatedButton(
                   width: 97.h,
@@ -154,6 +182,10 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
   }
 
   onTapImgArrowleftone(BuildContext context) {
+    NavigatorService.goBack();
+  }
+
+  onTapArrowleftone(BuildContext context) {
     NavigatorService.goBack();
   }
 }

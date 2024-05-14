@@ -53,7 +53,7 @@ class ModifierCommunautScreenState extends State<ModifierCommunautScreen> {
                   horizontal: 12.h,
                   vertical: 33.v,
                 ),
-                decoration: AppDecoration.outlineLightGreen.copyWith(
+                decoration: AppDecoration.outlinePrimary1.copyWith(
                   borderRadius: BorderRadiusStyle.roundedBorder20,
                 ),
                 child: Column(

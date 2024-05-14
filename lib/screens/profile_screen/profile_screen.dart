@@ -44,6 +44,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                   horizontal: 15.h,
                   vertical: 17.v,
                 ),
+                decoration: AppDecoration.outlinePrimary1.copyWith(
+                  borderRadius: BorderRadiusStyle.roundedBorder20,
+                ),
                 child: Column(
                   children: [
                     Text(
@@ -85,7 +88,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.v),
       decoration: BoxDecoration(
-        color: Colors.lightGreen.shade600,
+        color: theme.colorScheme.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(15.h),
           bottomRight: Radius.circular(15.h),
@@ -96,7 +99,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         children: [
           SizedBox(height: 5.v),
           CustomAppBar(
-            leadingWidth: 68.h,
+            // leadingWidth: 68.h,
             leading: GestureDetector(
               onTap: () {
                 onTapArrowLeftOne(context);
@@ -112,7 +115,7 @@ class ProfileScreenState extends State<ProfileScreen> {
             title: AppbarSubtitle(
               text: "lbl_profile".tr,
             ),
-            styleType: Style.bgOutline,
+            styleType: Style.bgFill_1,
           ),
           SizedBox(height: 25.v),
           Icon(
@@ -123,7 +126,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 16.v),
           Text(
             "msg_modifier_photo_profile".tr,
-            style: CustomTextStyles.titleSmallPrimarySemiBold,
+            style: CustomTextStyles.labelLargeWhiteA700,
           )
         ],
       ),
