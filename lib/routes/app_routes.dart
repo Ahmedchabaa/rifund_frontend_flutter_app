@@ -98,7 +98,7 @@ class AppRoutes {
         modifierNomScreen: ModifierNomScreen.builder,
         profileScreen: ProfileScreen.builder,
         modifierMotdepasseScreen: ModifierMotdepasseScreen.builder,
-        initialRoute: ProfileScreen.builder,
+        initialRoute: AcceuilClientPage.builder,
         appNavigationScreen: AppNavigationScreen.builder,
       };
 }
