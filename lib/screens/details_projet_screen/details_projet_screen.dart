@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/chat_box_screen/chat_box_screen.dart';
+import 'package:rifund/screens/financer_projet_screen/financer_projet_screen.dart';
 import 'package:rifund/widgets/app_bar/appbar_subtitle.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -14,13 +16,11 @@ import 'provider/details_projet_provider.dart';
 import 'widgets/slider_item_widget.dart';
 
 class DetailsProjetScreen extends StatefulWidget {
-  const DetailsProjetScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const DetailsProjetScreen({Key? key}) : super(key: key);
 
   @override
   DetailsProjetScreenState createState() => DetailsProjetScreenState();
+
   static Widget builder(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => DetailsProjetProvider(),
@@ -28,9 +28,7 @@ class DetailsProjetScreen extends StatefulWidget {
     );
   }
 }
-// ignore_for_file: must_be_immutable
 
-// ignore_for_file: must_be_immutable
 class DetailsProjetScreenState extends State<DetailsProjetScreen> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
@@ -46,38 +44,41 @@ class DetailsProjetScreenState extends State<DetailsProjetScreen> {
         backgroundColor: theme.colorScheme.onPrimaryContainer,
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
-        body: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(vertical: 8.v),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 31.h,
-                    right: 23.h,
-                  ),
-                  child:
-                      Selector<DetailsProjetProvider, TextEditingController?>(
-                    selector: (context, provider) => provider.searchController,
-                    builder: (context, searchController, child) {
-                      return CustomSearchView(
-                        controller: searchController,
-                        hintText: "lbl_rechercher".tr,
-                        alignment: Alignment.center,
-                      );
-                    },
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(vertical: 8.v),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 31.h,
+                      right: 23.h,
+                    ),
+                    child:
+                        Selector<DetailsProjetProvider, TextEditingController?>(
+                      selector: (context, provider) =>
+                          provider.searchController,
+                      builder: (context, searchController, child) {
+                        return CustomSearchView(
+                          controller: searchController,
+                          hintText: "lbl_rechercher".tr,
+                          alignment: Alignment.center,
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10.v),
-              _buildSlider(context),
-              SizedBox(height: 10.v),
-              _buildProjectDetails(context),
-              SizedBox(height: 5.v)
-            ],
+                SizedBox(height: 10.v),
+                _buildSlider(context),
+                SizedBox(height: 10.v),
+                _buildProjectDetails(context),
+                SizedBox(height: 5.v)
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomNavBar(),
@@ -192,15 +193,45 @@ class DetailsProjetScreenState extends State<DetailsProjetScreen> {
                     style: CustomTextStyles.titleLargeInterExtraBold,
                   ),
                 ),
-                CustomImageView(
-                  imagePath: ImageConstant.imgCommunicate,
-                  height: 30.adaptSize,
-                  width: 30.adaptSize,
-                  margin: EdgeInsets.only(
+                IconButton(
+                  icon: Icon(Icons.group),
+                  iconSize: 30.0,
+                  tooltip: 'Rejoindre Communauté',
+                  padding: EdgeInsets.only(
                     left: 28.h,
                     bottom: 3.v,
                   ),
-                )
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Confirmation'),
+                          content: Text(
+                              'Vous-etes sure pour rejoindre cette communauté?'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Rejoindre Communauté'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatBoxScreen()),
+                                );
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Annuler'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -265,8 +296,7 @@ class DetailsProjetScreenState extends State<DetailsProjetScreen> {
                 borderRadius: BorderRadiusStyle.circleBorder7,
               ),
               child: Align(
-                alignment:
-                    Alignment.centerRight, // Aligning the text to the left
+                alignment: Alignment.centerRight,
                 child: Text(
                   "lbl_120".tr,
                   style: theme.textTheme.labelMedium,
@@ -282,6 +312,12 @@ class DetailsProjetScreenState extends State<DetailsProjetScreen> {
             buttonStyle: CustomButtonStyles.fillPrimary,
             buttonTextStyle: theme.textTheme.titleMedium!,
             alignment: Alignment.center,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FinancerProjetScreen()),
+              );
+            },
           )
         ],
       ),
@@ -289,7 +325,7 @@ class DetailsProjetScreenState extends State<DetailsProjetScreen> {
   }
 
   /// Navigates to the previous screen.
-  onTapArrowleftone(BuildContext context) {
+  void onTapArrowleftone(BuildContext context) {
     NavigatorService.goBack();
   }
 }

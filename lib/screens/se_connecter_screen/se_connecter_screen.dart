@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 import '../../core/utils/validation_functions.dart';
+import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -37,7 +38,7 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
             width: double.maxFinite,
             child: Column(
               children: [
-                SizedBox(height: 29.v),
+                SizedBox(height: 5.v),
                 Expanded(
                   child: Container(
                     child: SizedBox(
@@ -50,7 +51,7 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
                             child: Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 70.h,
-                                vertical: 90.v,
+                                vertical: 50.v,
                               ),
                               decoration: AppDecoration.outlineBlack.copyWith(
                                 borderRadius: BorderRadiusStyle.roundedBorder21,
@@ -60,7 +61,7 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  SizedBox(height: 150.v),
+                                  SizedBox(height: 170.v),
                                   Text(
                                     "msg_vous_n_avez_pas".tr,
                                     style: CustomTextStyles.titleSmallWhiteA700,
@@ -124,17 +125,25 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      height: 65.v,
-      leading: Padding(
-        padding: EdgeInsets.only(left: 16, top: 16),
-        child: IconButton(
-          alignment: Alignment.centerLeft,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            onTapImage(context);
-          },
-        ),
+      centerTitle: true,
+      title: Row(
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              onTapImage(context);
+            },
+          ),
+          AppbarTitle(
+            text: "",
+            margin: EdgeInsets.only(
+              left: 50.h,
+              right: 60.h,
+            ),
+          ),
+        ],
       ),
+      // styleType: Style.bgFill_1,
     );
   }
 
@@ -227,6 +236,7 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
           CustomElevatedButton(
             alignment: Alignment.center,
             width: 120.h,
+            height: 40.v,
             buttonTextStyle: TextStyle(color: Colors.white),
             text: "lbl_se_connecter".tr,
             margin: EdgeInsets.only(

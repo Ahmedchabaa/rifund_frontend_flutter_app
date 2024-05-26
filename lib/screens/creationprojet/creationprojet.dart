@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/listeprojets/listeprojets.dart';
 
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
@@ -136,6 +137,8 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                   ),
                 ),
                 SizedBox(height: 18.v),
+                _buildCompte(context),
+                SizedBox(height: 18.v),
                 _buildCreateButton(context),
               ],
             ),
@@ -161,7 +164,7 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
           AppbarTitle(
             text: "Créer projet".tr,
             margin: EdgeInsets.only(
-              left: 31.h,
+              left: 85.h,
               top: 2.v,
               right: 79.h,
             ),
@@ -244,13 +247,20 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                       List<String> paths =
                           result.paths.map((path) => path!).toList();
                       // Handle the selected images here, you can save paths to use later
+                      List<String> fileNames =
+                          result.files.map((file) => file.name ?? '').toList();
                       print('Selected images: $paths');
+                      print(
+                          'Selected image names: $fileNames'); // Print the names of selected files
+                      // You can use fileNames to display the names in the UI
                     }
                   },
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-                    child: Icon(Icons.add),
+                    child: Icon(
+                      Icons.add_photo_alternate,
+                    ),
                   ),
                 ),
               ),
@@ -292,6 +302,12 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16.h,
               vertical: 11.v,
+            ),
+            suffix: Container(
+              padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+              child: Icon(
+                Icons.calendar_month,
+              ),
             ),
             textInputAction: TextInputAction.done,
           );
@@ -360,12 +376,45 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
   }
 
   /// Section Widget
+  Widget _buildCompte(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 2.h),
+      child: Selector<CrErProjetProvider, TextEditingController?>(
+        selector: (context, provider) => provider.comptefinancecontroller,
+        builder: (context, dateController, child) {
+          return CustomTextFormField(
+            controller: dateController,
+            hintText: "Numéro du compte courant".tr,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.h,
+              vertical: 11.v,
+            ),
+            // suffix: Container(
+            //   padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+            //   child: Icon(
+            //     Icons.calendar_month,
+            //   ),
+            // ),
+            textInputAction: TextInputAction.done,
+          );
+        },
+      ),
+    );
+  }
+
+  /// Section Widget
   Widget _buildCreateButton(BuildContext context) {
     return CustomElevatedButton(
-      height: 53.v,
-      width: 194.h,
+     height: 36.v,
+        width: 114.h,
       text: "lbl_cr_er".tr,
       buttonTextStyle: CustomTextStyles.titleLargeInterOnPrimaryContainer,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ListeDesProjetsPage()),
+        );
+      },
     );
   }
 

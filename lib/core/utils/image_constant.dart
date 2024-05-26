@@ -110,4 +110,43 @@ class ImageConstant {
   static String imgTelevision = '$imagePath/img_television.svg';
 
   static String imgMaleUser = '$imagePath/img_male_user.png';
+  // Profile admin images
+
+
+// Admin Communauté images
+  static String imgImage41 = '$imagePath/img_image_41.png';
+
+  static String imgPeopleWorkingTogether =
+      '$imagePath/img_people_working_together.png';
+
+// Admin catégorie images
+
+
+  static String imgContrast = '$imagePath/img_contrast.png';
+
+  static String imgProjectManagement41x72 =
+      '$imagePath/img_project_management_41x72.png';
+
+// admin utlisa images
+
+
+
+
+
+
+// Admin projet images
+  static String imgImage41118x237 = '$imagePath/img_image_41.png';
+
+// Common images
+
+
+  static String imgProjectManagement = '$imagePath/img_project_management.png';
+
+  static String imgAddUserGroupWoman =
+      '$imagePath/img_add_user_group_woman.png';
+
+  static String imgCategorize = '$imagePath/img_categorize.png';
+
+
+
 }

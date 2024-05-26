@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/app_export.dart';
+
 import '../models/app_navigation_model.dart';
 
 /// A provider class for the AppNavigationScreen.
@@ -9,7 +9,7 @@ import '../models/app_navigation_model.dart';
 // ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable
-class AppNavigationProvider extends ChangeNotifier {
+class AppNavigationProvider1 extends ChangeNotifier {
   AppNavigationModel appNavigationModelObj = AppNavigationModel();
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/profile_screen/profile_screen.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
@@ -38,72 +39,71 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: appTheme.whiteA700,
-          resizeToAvoidBottomInset: false,
-          appBar: _buildAppBar(context),
-          body: SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 59.v),
-                Container(
-                  width: 308.h,
-                  margin: EdgeInsets.only(
-                    left: 30.h,
-                    right: 20.h,
-                  ),
-                  padding: EdgeInsets.all(26.h),
-                  decoration: AppDecoration.outlinePrimary1.copyWith(
+        backgroundColor: appTheme.whiteA700,
+        resizeToAvoidBottomInset: false,
+        appBar: _buildAppBar(context),
+        body: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 59.v),
+              Container(
+                width: 308.h,
+                margin: EdgeInsets.only(
+                  left: 30.h,
+                  right: 20.h,
+                ),
+                padding: EdgeInsets.all(26.h),
+                decoration: AppDecoration.outlinePrimary1.copyWith(
                   borderRadius: BorderRadiusStyle.roundedBorder20,
                 ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "msg_changer_mot_de_passe".tr,
-                        style: theme.textTheme.titleLarge,
-                      ),
-                      SizedBox(height: 6.v),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          width: 241.h,
-                          margin: EdgeInsets.only(right: 13.h),
-                          child: Text(
-                            "msg_votre_mot_de_passe".tr,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: CustomTextStyles.titleSmallMedium,
-                          ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "msg_changer_mot_de_passe".tr,
+                      style: theme.textTheme.titleLarge,
+                    ),
+                    SizedBox(height: 6.v),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        width: 241.h,
+                        margin: EdgeInsets.only(right: 13.h),
+                        child: Text(
+                          "msg_votre_mot_de_passe".tr,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: CustomTextStyles.titleSmallMedium,
                         ),
                       ),
-                      SizedBox(height: 52.v),
-                      _buildEnterPassword(context),
-                      SizedBox(height: 21.v),
-                      _buildEnterPassword1(context),
-                      SizedBox(height: 20.v),
-                      _buildRepetezLe(context),
-                      SizedBox(height: 46.v),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _buildModifier(context),
-                            _buildAnnuler(context)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 52.v),
+                    _buildEnterPassword(context),
+                    SizedBox(height: 21.v),
+                    _buildEnterPassword1(context),
+                    SizedBox(height: 20.v),
+                    _buildRepetezLe(context),
+                    SizedBox(height: 46.v),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildModifier(context),
+                        SizedBox(width: 10.h), // Adjust spacing between buttons
+                        _buildAnnuler(context),
+                      ],
+                    ),
+                  ],
                 ),
-                // Spacer()
-              ],
-            ),
+              ),
+              // Spacer()
+            ],
           ),
-          bottomNavigationBar: BottomNavBar()),
+        ),
+        bottomNavigationBar: BottomNavBar(),
+      ),
     );
   }
 
@@ -187,21 +187,32 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
 
   Widget _buildModifier(BuildContext context) {
     return CustomElevatedButton(
-      width: 97.h,
+      height: 36.v,
+      width: 117.h,
       text: "lbl_modifier".tr,
       margin: EdgeInsets.only(top: 1.v),
       buttonTextStyle:
           CustomTextStyles.titleSmallPrimary.copyWith(color: Colors.white),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ProfileScreen()),
+        );
+      },
     );
   }
 
   Widget _buildAnnuler(BuildContext context) {
     return CustomElevatedButton(
-      width: 97.h,
+      height: 36.v,
+      width: 117.h,
       text: "lbl_annuler".tr,
-      margin: EdgeInsets.only(left: 10.h),
+      margin: EdgeInsets.only(top: 1.v),
       buttonStyle: CustomButtonStyles.fillBlueGray,
       buttonTextStyle: theme.textTheme.titleSmall!,
+      onPressed: () {
+        onTapArrowleftone(context);
+      },
     );
   }
 

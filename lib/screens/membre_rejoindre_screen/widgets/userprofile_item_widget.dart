@@ -30,7 +30,7 @@ class UserprofileItemWidget extends StatelessWidget {
           Expanded(
             child: Text(
               userprofileItemModelObj.username!,
-              style: theme.textTheme.titleMedium,
+              style: theme.textTheme.titleSmall,
             ),
           ),
           SizedBox(width: 23.h), // Add space between username and actions

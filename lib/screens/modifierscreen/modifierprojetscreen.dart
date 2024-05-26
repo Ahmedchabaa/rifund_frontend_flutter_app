@@ -1,4 +1,6 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/details_projet_screen/details_projet_screen.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
@@ -23,7 +25,6 @@ class ModifierProjetScreen extends StatefulWidget {
     );
   }
 }
-// ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable
 class ModifierProjetScreenState extends State<ModifierProjetScreen> {
@@ -82,13 +83,13 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 18.v),
+                    SizedBox(height: 12.v),
                     _buildProjectTitle(context),
-                    SizedBox(height: 18.v),
+                    SizedBox(height: 12.v),
                     _buildDescriptionValue(context),
-                    SizedBox(height: 18.v),
+                    SizedBox(height: 12.v),
                     _buildProjectImages(context),
-                    SizedBox(height: 18.v),
+                    SizedBox(height: 12.v),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.h),
                       child: Row(
@@ -123,9 +124,9 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 18.v),
+                    SizedBox(height: 12.v),
                     _buildDurationOne(context),
-                    SizedBox(height: 18.v),
+                    SizedBox(height: 12.v),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.h),
                       child: Selector<ModifierProjetProvider,
@@ -152,7 +153,7 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 18.v),
+                    SizedBox(height: 12.v),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.h),
                       child: Selector<ModifierProjetProvider,
@@ -179,11 +180,15 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 28.v),
+                    SizedBox(
+                      height: 12.v,
+                    ),
+                    _buildCompteOne(context),
+                    SizedBox(height: 12.v),
                     Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 79.h),
+                        padding: EdgeInsets.only(left: 50.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -218,7 +223,7 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
           AppbarTitle(
             text: "Modifier projet".tr,
             margin: EdgeInsets.only(
-              left: 31.h,
+             left: 80.h,
               top: 2.v,
               right: 79.h,
             ),
@@ -291,13 +296,30 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
                 right: 0,
                 bottom: 0,
                 child: GestureDetector(
-                  onTap: () {
-                    // Action à effectuer lorsque l'icône est cliquée
+                  onTap: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.image,
+                      allowMultiple: true,
+                    );
+                    if (result != null) {
+                      List<String> paths =
+                          result.paths.map((path) => path!).toList();
+                      // Handle the selected images here, you can save paths to use later
+                      List<String> fileNames =
+                          result.files.map((file) => file.name ?? '').toList();
+                      print('Selected images: $paths');
+                      print(
+                          'Selected image names: $fileNames'); // Print the names of selected files
+                      // You can use fileNames to display the names in the UI
+                    }
                   },
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-                    child: Icon(Icons.add),
+                    child: Icon(
+                      Icons.add_photo_alternate,
+                    ),
                   ),
                 ),
               ),
@@ -343,6 +365,39 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
               horizontal: 16.h,
               vertical: 11.v,
             ),
+            suffix: Container(
+              padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+              child: Icon(
+                Icons.calendar_month,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /// Section Widget
+  Widget _buildCompteOne(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 2.h),
+      child: Selector<ModifierProjetProvider, TextEditingController?>(
+        selector: (context, provider) => provider.comptecourantController,
+        builder: (context, dateController, child) {
+          return CustomTextFormField(
+            controller: dateController,
+            hintText: "Numéro du compte courant".tr,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.h,
+              vertical: 11.v,
+            ),
+            // suffix: Container(
+            //   padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+            //   child: Icon(
+            //     Icons.calendar_month,
+            //   ),
+            // ),
+            textInputAction: TextInputAction.done,
           );
         },
       ),
@@ -351,22 +406,36 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
 
   /// Section Widget
   Widget _buildModifier(BuildContext context) {
-    return CustomElevatedButton(
-      width: 97.h,
-      text: "lbl_modifier".tr,
-      buttonStyle: CustomButtonStyles.fillLightGreen,
-      buttonTextStyle: CustomTextStyles.titleSmallOnPrimaryContainer,
+    return Center(
+      child: CustomElevatedButton(
+        height: 36.v,
+        width: 114.h,
+        text: "lbl_modifier".tr,
+        buttonStyle: CustomButtonStyles.fillLightGreen,
+        buttonTextStyle: CustomTextStyles.titleSmallOnPrimaryContainer,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DetailsProjetScreen()),
+          );
+        },
+      ),
     );
   }
 
-  /// Section Widget
   Widget _buildAnnuler(BuildContext context) {
-    return CustomElevatedButton(
-      width: 97.h,
-      text: "lbl_annuler".tr,
-      margin: EdgeInsets.only(left: 16.h),
-      buttonStyle: CustomButtonStyles.fillBlueGray,
-      buttonTextStyle: CustomTextStyles.titleSmallBlack900,
+    return Center(
+      child: CustomElevatedButton(
+        height: 36.v,
+        width: 114.h,
+        text: "lbl_annuler".tr,
+        margin: EdgeInsets.only(left: 10.h),
+        buttonStyle: CustomButtonStyles.fillBlueGray,
+        buttonTextStyle: CustomTextStyles.titleSmallBlack900,
+        onPressed: () {
+          onTapArrowleftone(context);
+        },
+      ),
     );
   }
 

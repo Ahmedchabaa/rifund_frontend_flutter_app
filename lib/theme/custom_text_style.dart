@@ -24,6 +24,9 @@ class CustomTextStyles {
       theme.textTheme.titleLarge!.inter.copyWith(
         fontWeight: FontWeight.w800,
       );
+  static get titleLargeLight => theme.textTheme.titleLarge!.copyWith(
+        fontWeight: FontWeight.w300,
+      );
   static get titleLargeInterOnPrimary =>
       theme.textTheme.titleLarge!.inter.copyWith(
         color: theme.colorScheme.onPrimary,
@@ -80,6 +83,7 @@ class CustomTextStyles {
   static get bodyMediumLight_1 => theme.textTheme.bodyMedium!.copyWith(
         fontWeight: FontWeight.w300,
       );
+      
 // Label text style
   static get labelLargeBlack900 => theme.textTheme.labelLarge!.copyWith(
         color: appTheme.black900,
@@ -183,4 +187,5 @@ class CustomTextStyles {
         color: theme.colorScheme.primary,
         fontWeight: FontWeight.w600,
       );
+      
 }

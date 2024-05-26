@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:rifund/screens/affichage_par_categorie/affichagecategorie.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
@@ -169,7 +171,18 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                       return SizedBox(
                         width: 170,
                         height: 130,
-                        child: ListtextItemWidget(model),
+                        child: ListtextItemWidget(
+                          model,
+                         onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AffichageCategoriePage(),
+                              ),
+                            );
+                          },
+                        
+                        ),
                       );
                     },
                   );
@@ -234,7 +247,7 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                             padding: EdgeInsets.only(left: 27.h),
                             child: Text(
                               "lbl_projet_n_rgie".tr,
-                              style: CustomTextStyles.titleMediumSemiBold,
+                              style: CustomTextStyles.titleLargeBold,
                             ),
                           ),
                           SizedBox(height: 11.v),
@@ -395,7 +408,7 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                             padding: EdgeInsets.only(left: 27.h),
                             child: Text(
                               "lbl_projet_n_rgie".tr,
-                              style: CustomTextStyles.titleMediumSemiBold,
+                              style: CustomTextStyles.titleLargeBold,
                             ),
                           ),
                           SizedBox(height: 11.v),
@@ -472,6 +485,14 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                                   text: "lbl_faire_un_don".tr,
                                   buttonTextStyle:
                                       CustomTextStyles.titleMediumWhiteA700,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              FinancerProjetScreen()),
+                                    );
+                                  },
                                 ),
                                 SizedBox(
                                   width: 5.h,
@@ -482,6 +503,14 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                                   text: "lbl_plus".tr,
                                   buttonStyle: CustomButtonStyles.fillGray,
                                   buttonTextStyle: theme.textTheme.titleMedium!,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailsProjetScreen()),
+                                    );
+                                  },
                                 )
                               ],
                             ),
@@ -540,7 +569,7 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                             padding: EdgeInsets.only(left: 27.h),
                             child: Text(
                               "lbl_projet_n_rgie".tr,
-                              style: CustomTextStyles.titleMediumSemiBold,
+                              style: CustomTextStyles.titleLargeBold,
                             ),
                           ),
                           SizedBox(height: 11.v),
@@ -617,6 +646,14 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                                   text: "lbl_faire_un_don".tr,
                                   buttonTextStyle:
                                       CustomTextStyles.titleMediumWhiteA700,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              FinancerProjetScreen()),
+                                    );
+                                  },
                                 ),
                                 SizedBox(
                                   width: 5.h,
@@ -627,6 +664,14 @@ class AcceuilClientPageState extends State<AcceuilClientPage> {
                                   text: "lbl_plus".tr,
                                   buttonStyle: CustomButtonStyles.fillGray,
                                   buttonTextStyle: theme.textTheme.titleMedium!,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailsProjetScreen()),
+                                    );
+                                  },
                                 )
                               ],
                             ),

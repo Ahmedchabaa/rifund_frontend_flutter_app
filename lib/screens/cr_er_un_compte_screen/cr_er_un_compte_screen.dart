@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 import '../../core/utils/validation_functions.dart';
+import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -45,7 +46,7 @@ class CrErUnCompteScreenState extends State<CrErUnCompteScreen> {
             width: double.maxFinite,
             child: Column(
               children: [
-                SizedBox(height: 29.v),
+                SizedBox(height: 5.v),
                 Expanded(
                   child: Container(
                     child: SizedBox(
@@ -120,17 +121,26 @@ class CrErUnCompteScreenState extends State<CrErUnCompteScreen> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      height: 60.v,
-      leading: Padding(
-        padding: EdgeInsets.only(left: 18, top: 10),
-        child: IconButton(
-          alignment: Alignment.centerRight,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            onTapImage(context);
-          },
-        ),
+      centerTitle: true,
+      title: Row(
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              onTapImage(context);
+            },
+          ),
+          AppbarTitle(
+            text: "",
+            margin: EdgeInsets.only(
+              left: 50.h,
+              top: 2.v,
+              right: 60.h,
+            ),
+          ),
+        ],
       ),
+      // styleType: Style.bgFill_1,
     );
   }
 
@@ -297,6 +307,7 @@ class CrErUnCompteScreenState extends State<CrErUnCompteScreen> {
       // Aligns its child in the center
       child: CustomElevatedButton(
         width: 120.h,
+         height: 40.v,
         text: "lbl_cr_er".tr,
         margin: EdgeInsets.only(
           left: 25.h,

@@ -53,7 +53,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 40.h,
-                            vertical: 85.v,
+                            vertical: 86.5.v,
                           ),
                           decoration: AppDecoration.fillLightGreen.copyWith(
                             borderRadius: BorderRadiusStyle.roundedBorder21,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/cr_er_communaut_screen/cr_er_communaut_screen.dart';
 
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
@@ -108,7 +109,12 @@ class ListeDeCommunautPageState extends State<ListeDeCommunautPage> {
               color: Colors.black), // Display an icon
           iconSize: 30, // Set the icon size
           alignment: Alignment.center, // Align the icon to the center
-          onPressed: () {}, // Callback function when IconButton is pressed
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CrErCommunautScreen()),
+            );
+          }, // Callback function when IconButton is pressed
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/profile_screen/profile_screen.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
@@ -39,7 +40,7 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
       child: Scaffold(
         backgroundColor: appTheme.whiteA700,
         resizeToAvoidBottomInset: false,
-        appBar: _buildAppBar(context), // Ajout de l'app bar ici
+        appBar: _buildAppBar(context), // Add the app bar here
         body: Container(
           width: double.maxFinite,
           padding: EdgeInsets.symmetric(
@@ -48,7 +49,7 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
           ),
           child: Column(
             children: [
-              // L'en-tête est maintenant inclus dans l'app bar
+              // The header is now included in the app bar
               Spacer(
                 flex: 56,
               ),
@@ -64,29 +65,6 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
     );
   }
 
-  // PreferredSizeWidget _buildAppBar(BuildContext context) {
-  //   return AppBar(
-  //     backgroundColor: theme.colorScheme.primary,
-  //     elevation: 0,
-  //     leading: IconButton(
-  //       icon: Icon(
-  //         Icons.arrow_back_ios_outlined,
-  //         color: Colors.lightGreen.shade600,
-  //       ),
-  //       onPressed: () {
-  //         onTapImgArrowleftone(context);
-  //       },
-  //     ),
-  //     title: Text(
-  //       "msg_changer_nom_d_utilisateur".tr,
-  //       style: CustomTextStyles.titleLargeLightgreen60001,
-  //     ),
-  //     centerTitle: true,
-  //     automaticallyImplyLeading:
-  //         false, // Désactive le bouton de retour automatique
-  //   );
-  // }
-
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       centerTitle: true,
@@ -99,7 +77,7 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
             },
           ),
           AppbarTitle(
-            text: "msg_changer_nom_d_utilisateur".tr,
+            text: "Changer nom d'utilisateur".tr,
             margin: EdgeInsets.only(
               left: 40.h,
               top: 2.v,
@@ -153,29 +131,38 @@ class ModifierNomScreenState extends State<ModifierNomScreen> {
             ),
           ),
           SizedBox(height: 41.v),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 26.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomElevatedButton(
-                  width: 97.h,
-                  text: "lbl_modifier".tr,
-                  margin: EdgeInsets.only(top: 1.v),
-                  buttonTextStyle: CustomTextStyles.titleSmallPrimary
-                      .copyWith(color: Colors.white),
-                ),
-                CustomElevatedButton(
-                  width: 97.h,
-                  text: "lbl_annuler".tr,
-                  margin: EdgeInsets.only(left: 10.h),
-                  buttonStyle: CustomButtonStyles.fillBlueGray,
-                  buttonTextStyle: theme.textTheme.titleSmall!,
-                )
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomElevatedButton(
+                height: 36.v,
+                width: 117.h,
+                text: "lbl_modifier".tr,
+                margin: EdgeInsets.only(top: 1.v),
+                buttonTextStyle: CustomTextStyles.titleSmallPrimary
+                    .copyWith(color: Colors.white),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  );
+                },
+              ),
+              SizedBox(width: 10.h), // Add spacing between buttons
+              CustomElevatedButton(
+                height: 36.v,
+                width: 117.h,
+                text: "lbl_annuler".tr,
+                margin: EdgeInsets.only(top: 1.v),
+                buttonStyle: CustomButtonStyles.fillBlueGray,
+                buttonTextStyle: theme.textTheme.titleSmall!,
+                onPressed: () {
+                  onTapArrowleftone(context);
+                },
+              ),
+            ],
           ),
-          SizedBox(height: 24.v)
+          SizedBox(height: 24.v),
         ],
       ),
     );

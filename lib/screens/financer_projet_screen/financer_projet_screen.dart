@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/acceuil_client_page/acceuil_client_page.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
@@ -61,7 +62,7 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
                   )),
               SizedBox(height: 30.v),
               _buildColumnfullname(context),
-              Spacer()
+              Spacer(),
             ],
           ),
         ),
@@ -201,22 +202,31 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
   /// Section Widget
   Widget _buildSauvgarder(BuildContext context) {
     return CustomElevatedButton(
-      height: 36.v,
+      height: 45.v,
       width: 109.h,
       text: "lbl_sauvgarder".tr,
       buttonTextStyle: CustomTextStyles.labelLargeWhiteA700,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AcceuilClientPage()),
+        );
+      },
     );
   }
 
   /// Section Widget
   Widget _buildAnnuler(BuildContext context) {
     return CustomElevatedButton(
-      height: 36.v,
+      height: 45.v,
       width: 117.h,
       text: "lbl_annuler".tr,
       margin: EdgeInsets.only(left: 12.h),
       buttonStyle: CustomButtonStyles.fillGrayTL18,
       buttonTextStyle: theme.textTheme.labelLarge!,
+      onPressed: () {
+        onTapArrowleftone(context);
+      },
     );
   }
 
@@ -255,21 +265,33 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
                       provider.financerProjetModelObj,
                   builder: (context, financerProjetModelObj, child) {
                     return CustomDropDown(
-                      width: 116.h,
+                      width: 120.h,
+                      
                       icon: CustomImageView(
                         imagePath: ImageConstant.imgcrprojet,
                         height: 15.adaptSize,
                         width: 15.adaptSize,
                       ),
                       hintText: "Devise".tr,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16.h,
-                        vertical: 11.v,
-                      ),
+                           contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.h,
+                              vertical: 15.v,
+                            ),
                       items: financerProjetModelObj?.dropdownItemList ?? [],
                     );
                   },
                 )
+              ],
+            ),
+          ),
+          SizedBox(height: 18.v),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildSauvgarder(context),
+                _buildAnnuler(context),
               ],
             ),
           ),

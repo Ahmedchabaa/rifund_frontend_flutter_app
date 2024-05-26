@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/affichage_communaut_page/affichage_communaut_page.dart';
+import 'package:rifund/screens/chat_box_screen/chat_box_screen.dart';
+import 'package:rifund/screens/membre_rejoindre_screen/membre_rejoindre_screen.dart';
+import 'package:rifund/screens/modifier_communaut_screen/modifier_communaut_screen.dart';
+
 import '../../../core/app_export.dart';
 import '../models/communitycardsection_item_model.dart'; // ignore: must_be_immutable
 // ignore_for_file: must_be_immutable
@@ -20,7 +25,7 @@ class CommunitycardsectionItemWidget extends StatelessWidget {
         horizontal: 7.h,
         vertical: 3.v,
       ),
-        decoration: AppDecoration.outlineWhiteA.copyWith(
+      decoration: AppDecoration.outlineWhiteA.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder20,
       ),
       child: Row(
@@ -63,69 +68,81 @@ class CommunitycardsectionItemWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10.v),
-               Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit_document),
-                  onPressed: () {
-                    // Add your onPressed logic here
-                  },
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit_document),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ModifierCommunautScreen()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.group_add),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MembreRejoindreScreen()),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.chat),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatBoxScreen()),
+                        );
+                      },
+                    ),
+                    SizedBox(width: 3.h), // Add space between buttons
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        // Show delete confirmation dialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: appTheme.orange50,
+                              title: Text("Confirmation "),
+                              content: Text(
+                                  "Voulez-Vous supprimer cette communauté ?"),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text(
+                                    "Supprimer",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 118, 173,
+                                            55)), // Change text color to black
+                                  ),
+                                  onPressed: () {
+                                    _deleteItem();
+                                    Navigator.of(context).pop(); // Close dialog
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text("Annuler",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 118, 173, 55))),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
-                  IconButton(
-                  icon: Icon(Icons.group_add),
-                  onPressed: () {
-                    // Add your onPressed logic here
-                  },
-                ),
-                  IconButton(
-                  icon: Icon(Icons.remove_red_eye),
-                  onPressed: () {
-                    // Add your onPressed logic here
-                  },
-                ),
-                SizedBox(width: 3.h), // Add space between buttons
-               IconButton(
-  icon: Icon(Icons.delete),
-  onPressed: () {
-    // Show delete confirmation dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: appTheme.orange50,
-          title: Text("Confirmation "),
-          content: Text("Voulez-Vous supprimer cette communauté ?"),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                 "Supprimer",
-                 style: TextStyle(color: Color.fromARGB(255, 118, 173, 55)), // Change text color to black
-                  ),
-               onPressed: () {
-                  _deleteItem();
-                  Navigator.of(context).pop(); // Close dialog
-                     },
-                       ),
-
-           TextButton(
-           child: Text("Annuler",
-              style: TextStyle(color: Color.fromARGB(255, 118, 173, 55))),
-           
-               onPressed: () {
-                 Navigator.of(context).pop();
-              },
-           ),
-           
-
-          ],
-        );
-      },
-    );
-  },
-),
-
-              ],
-            ),
               ],
             ),
           )
@@ -133,9 +150,9 @@ class CommunitycardsectionItemWidget extends StatelessWidget {
       ),
     );
   }
-  // Function to perform delete action
-void _deleteItem() {
-  print("Communauté supprimée!");
-}
 
+  // Function to perform delete action
+  void _deleteItem() {
+    print("Communauté supprimée!");
+  }
 }

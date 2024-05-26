@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../../../core/app_export.dart';
 import '../../../data/models/selectionPopupModel/selection_popup_model.dart';
 import '../models/modifier_projet_model.dart';
@@ -21,6 +22,8 @@ class ModifierProjetProvider extends ChangeNotifier {
 
   TextEditingController durationOneController = TextEditingController();
 
+  TextEditingController comptecourantController = TextEditingController();
+
   ModifierProjetModel modifierProjetModelObj = ModifierProjetModel();
 
   @override
@@ -31,6 +34,7 @@ class ModifierProjetProvider extends ChangeNotifier {
     projectImagesController.dispose();
     budgetValueOneController.dispose();
     durationOneController.dispose();
+    comptecourantController.dispose();
   }
 
   onSelected(dynamic value) {

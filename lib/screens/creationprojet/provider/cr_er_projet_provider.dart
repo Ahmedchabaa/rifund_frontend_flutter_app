@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/app_export.dart';
-import '../../../data/models/selectionPopupModel/selection_popup_model.dart';
-import '../models/modelcrprojet.dart';
+import 'package:flutter/widgets.dart';
 
+import '../models/modelcrprojet.dart';
 
 /// A provider class for the CrErProjetScreen.
 ///
@@ -22,6 +21,8 @@ class CrErProjetProvider extends ChangeNotifier {
 
   TextEditingController dateController = TextEditingController();
 
+  TextEditingController comptefinancecontroller = TextEditingController();
+
   CrErProjetModel crErProjetModelObj = CrErProjetModel();
 
   @override
@@ -32,6 +33,7 @@ class CrErProjetProvider extends ChangeNotifier {
     projectImagesController.dispose();
     budgetValueController.dispose();
     dateController.dispose();
+    comptefinancecontroller.dispose();
   }
 
   onSelected(dynamic value) {

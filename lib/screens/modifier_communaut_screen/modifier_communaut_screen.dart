@@ -1,4 +1,6 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:rifund/screens/affichage_communaut_page/affichage_communaut_page.dart';
 
 import '../../core/app_export.dart';
 import '../../theme/custom_button_style.dart';
@@ -165,17 +167,46 @@ class ModifierCommunautScreenState extends State<ModifierCommunautScreen> {
     return Selector<ModifierCommunautProvider, TextEditingController?>(
       selector: (context, provider) => provider.webUrlController,
       builder: (context, webUrlController, child) {
-        return CustomTextFormField(
-          controller: webUrlController,
-          hintText: "lbl_image_jpg".tr,
-          textInputAction: TextInputAction.done,
-          suffix: Container(
-            padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-            child: Icon(
-              Icons.add_photo_alternate,
-              // Add any additional styling for the icon here
+        return Stack(
+          children: [
+            CustomTextFormField(
+              controller: webUrlController,
+              hintText: "selectionner images".tr,
+              textInputAction: TextInputAction.done,
             ),
-          ),
+            Positioned(
+              top: 0,
+              right: 0,
+              bottom: 0,
+              child: GestureDetector(
+                onTap: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles(
+                    type: FileType.image,
+                    allowMultiple: true,
+                  );
+                  if (result != null) {
+                    List<String> paths =
+                        result.paths.map((path) => path!).toList();
+                    // Handle the selected images here, you can save paths to use later
+                    List<String> fileNames =
+                        result.files.map((file) => file.name ?? '').toList();
+                    print('Selected images: $paths');
+                    print(
+                        'Selected image names: $fileNames'); // Print the names of selected files
+                    // You can use fileNames to display the names in the UI
+                  }
+                },
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+                  child: Icon(
+                    Icons.add_photo_alternate,
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -185,9 +216,17 @@ class ModifierCommunautScreenState extends State<ModifierCommunautScreen> {
   Widget _buildCreateButton(BuildContext context) {
     return Expanded(
       child: CustomElevatedButton(
+        height: 36.v,
+        width: 117.h,
         text: "Modifier".tr,
         margin: EdgeInsets.only(right: 12.h),
         buttonTextStyle: CustomTextStyles.labelLargeWhiteA700,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AffichageCommunautPage()),
+          );
+        },
       ),
     );
   }
@@ -196,10 +235,15 @@ class ModifierCommunautScreenState extends State<ModifierCommunautScreen> {
   Widget _buildCancelButton(BuildContext context) {
     return Expanded(
       child: CustomElevatedButton(
+        height: 36.v,
+        width: 117.h,
         text: "lbl_annuler".tr,
         margin: EdgeInsets.only(left: 12.h),
         buttonStyle: CustomButtonStyles.fillBlueGray,
         buttonTextStyle: theme.textTheme.labelLarge!,
+        onPressed: () {
+          onTapImage(context);
+        },
       ),
     );
   }

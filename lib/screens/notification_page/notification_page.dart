@@ -161,10 +161,10 @@ class NotificationPageState extends State<NotificationPage> {
                       bottom: 9.v,
                     ),
                     child: Text(
-                      "msg_imen_missaoui_a".tr,
+                      "Imen Missaoui a envoyé un message sur  communauté Projet energie. ".tr,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium!.copyWith(
+                      style: theme.textTheme.titleSmall!.copyWith(
                         height: 1.40,
                       ),
                     ),
@@ -246,10 +246,10 @@ class NotificationPageState extends State<NotificationPage> {
                       bottom: 9.v,
                     ),
                     child: Text(
-                      "msg_taoufik_keskes_a".tr,
+                      "Taoufik keskes a fait un don sur projet énérgétique".tr,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium!.copyWith(
+                      style: theme.textTheme.titleSmall!.copyWith(
                         height: 1.40,
                       ),
                     ),

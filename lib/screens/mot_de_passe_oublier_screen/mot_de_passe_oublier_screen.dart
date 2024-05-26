@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../core/app_export.dart';
+import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
@@ -41,32 +43,27 @@ class MotDePasseOublierScreenState extends State<MotDePasseOublierScreen> {
             vertical: 10.v,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 15.v,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 80.h),
+             Align(
+               alignment: Alignment.center,
                 child: Text(
                   "msg_mot_de_passe_oubli2".tr,
                   style: CustomTextStyles.titleLargeExtraBold,
                 ),
               ),
               SizedBox(height: 20.v),
-              Container(
-                width: 150.h,
-                margin: EdgeInsets.only(
-                  left: 17.h,
-                  right: 40.h,
-                ),
-                child: Text(
-                  "msg_entrez_votre_email".tr,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: CustomTextStyles.bodyMediumLight,
-                ),
-              ),
+          Container(
+           margin: EdgeInsets.only(
+             left: 17,
+          right: 40,
+            ),
+          child: Text(
+           "Entrez votre email pour recevoir un mot de passe de réinitialisation par email.",
+              overflow: TextOverflow.visible,
+          style: CustomTextStyles.bodyMediumLight,
+  ),
+),
+
               SizedBox(height: 28.v),
               _buildLoginForm(context),
               SizedBox(height: 5.v)
@@ -80,17 +77,26 @@ class MotDePasseOublierScreenState extends State<MotDePasseOublierScreen> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      height: 55.v,
-      leading: Padding(
-        padding: EdgeInsets.only(left: 18, top: 10),
-        child: IconButton(
-          alignment: Alignment.centerRight,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            onTapImage(context);
-          },
-        ),
+      centerTitle: true,
+      title: Row(
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              onTapImage(context);
+            },
+          ),
+          AppbarTitle(
+            text: "",
+            margin: EdgeInsets.only(
+              left: 50.h,
+              top: 2.v,
+              right: 60.h,
+            ),
+          ),
+        ],
       ),
+      // styleType: Style.bgFill_1,
     );
   }
 
@@ -139,7 +145,8 @@ class MotDePasseOublierScreenState extends State<MotDePasseOublierScreen> {
           ),
           SizedBox(height: 20.v),
           CustomElevatedButton(
-            width: 148.h,
+            width: 100.h,
+             height: 40.v,
             text: "lbl_envoyer".tr,
             buttonTextStyle: theme.textTheme.labelLarge!,
           ),
