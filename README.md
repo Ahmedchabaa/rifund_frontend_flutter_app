@@ -18,5 +18,7 @@ samples, guidance on mobile development, and a full API reference.
 To run project you must run this commands: 
 
 1 - flutter pub get
+
 2 - flutter pub run flutter_launcher_icons -f main
+
 3 - flutter run
