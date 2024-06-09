@@ -74,7 +74,7 @@ class AdminUtlisaPageState extends State<AdminUtlisaPage> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          " Tout  Selectionner".tr,
+                          "Selectionner tout".tr,
                           style: theme.textTheme.titleSmall,
                         ),
                       ),
@@ -147,7 +147,7 @@ class AdminUtlisaPageState extends State<AdminUtlisaPage> {
             },
           ),
           AppbarTitle(
-            text: "Gérer Utilisateur".tr,
+            text: "Gérer Utilisateurs".tr,
             margin: EdgeInsets.only(
               left: 80.h,
               top: 2.v,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rifund/screens/admin/ajout_cat_gorie_page/ajout_cat_gorie_page.dart';
 import 'package:rifund/screens/admin/modifier_cat_gorie_page/modifier_cat_gorie_page.dart';
-import '../../../core/app_export.dart';
+
 import '../../../../widgets/app_bar/appbar_title.dart';
+import '../../../core/app_export.dart';
 import '../../../widgets/app_bar/custom_app_bar.dart';
 import '../../../widgets/custom_bottom_bar.dart';
 import '../../../widgets/custom_icon_button.dart';
-import 'models/admin_cat_gorie_model.dart';
 import 'provider/admin_cat_gorie_provider.dart';
 
 class AdminCatGorieScreen extends StatefulWidget {
@@ -64,11 +64,13 @@ class AdminCatGorieScreenState extends State<AdminCatGorieScreen> {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 1.v),
                                 child: Text(
-                                  "Nom de catégorie".tr,
+                                  "Liste des catégories".tr,
                                   style: theme.textTheme.headlineSmall,
                                 ),
                               ),
-                              SizedBox(height: 10.h,),
+                              SizedBox(
+                                height: 10.h,
+                              ),
                               ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -83,7 +85,7 @@ class AdminCatGorieScreenState extends State<AdminCatGorieScreen> {
                                 style: ElevatedButton.styleFrom(
                                   // styling the button
                                   shape: CircleBorder(),
-                                  padding: EdgeInsets.all(20),
+                                  padding: EdgeInsets.all(19),
                                   backgroundColor: Colors
                                       .lightGreen.shade600, // Button color
                                   // Splash color
@@ -162,7 +164,7 @@ class AdminCatGorieScreenState extends State<AdminCatGorieScreen> {
             },
           ),
           AppbarTitle(
-            text: "Gérer catégorie".tr,
+            text: "Gérer catégories".tr,
             margin: EdgeInsets.only(
               left: 80.h,
               top: 2.v,
@@ -188,12 +190,12 @@ Widget _buildField1(
     decoration: AppDecoration.outlineLightgreen600.copyWith(
       borderRadius: BorderRadiusStyle.roundedBorder20,
     ),
-    child:  Row(
+    child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(
-            top: 5.0,  // Assuming .v is a custom extension
+            top: 5.0, // Assuming .v is a custom extension
             bottom: 9.0, // Assuming .v is a custom extension
           ),
           child: Image.asset(
@@ -203,22 +205,22 @@ Widget _buildField1(
           ),
         ),
         SizedBox(width: 8.0),
-           Padding(
+        Padding(
           padding: EdgeInsets.only(
-            top: 7.0,  // Assuming .v is a custom extension
+            top: 7.0, // Assuming .v is a custom extension
             bottom: 9.0, // Assuming .v is a custom extension
-          ),// Space between the image and text
-       child: Text(
-          text,
-          style: theme.textTheme.bodyMedium!.copyWith(
-            color: appTheme.black900,
+          ), // Space between the image and text
+          child: Text(
+            text,
+            style: theme.textTheme.bodyMedium!.copyWith(
+              color: appTheme.black900,
+            ),
           ),
         ),
-           ),
         Spacer(),
         CustomIconButton(
-          height: 32.0,  // Assuming .adaptSize is a custom extension
-          width: 32.0,   // Assuming .adaptSize is a custom extension
+          height: 32.0, // Assuming .adaptSize is a custom extension
+          width: 32.0, // Assuming .adaptSize is a custom extension
           onTap: () {
             Navigator.push(
               context,
@@ -227,10 +229,10 @@ Widget _buildField1(
           },
           child: Icon(Icons.note_add),
         ),
-        SizedBox(width: 8.0),  // Space between the icons
+        SizedBox(width: 8.0), // Space between the icons
         CustomIconButton(
-          height: 32.0,  // Assuming .adaptSize is a custom extension
-          width: 32.0,   // Assuming .adaptSize is a custom extension
+          height: 32.0, // Assuming .adaptSize is a custom extension
+          width: 32.0, // Assuming .adaptSize is a custom extension
           onTap: () {
             deletedialog(context);
           },
@@ -240,7 +242,6 @@ Widget _buildField1(
     ),
   );
 }
-
 
 void onTapArrowleftone(BuildContext context) {
   NavigatorService.goBack();

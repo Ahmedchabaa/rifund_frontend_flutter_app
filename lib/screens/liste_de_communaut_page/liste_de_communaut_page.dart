@@ -76,7 +76,7 @@ class ListeDeCommunautPageState extends State<ListeDeCommunautPage> {
             },
           ),
           AppbarTitle(
-            text: "Liste de Communauté".tr,
+            text: "Liste des Communautés".tr,
             margin: EdgeInsets.only(
               left: 50.h,
               top: 2.v,
@@ -97,13 +97,13 @@ class ListeDeCommunautPageState extends State<ListeDeCommunautPage> {
       children: [
         Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: 15.h), // Add horizontal margin
+              EdgeInsets.symmetric(horizontal: 5.h), // Add horizontal margin
           child: Text(
-            "Liste de Communauté".tr, // Display translated text
+            "Liste des Communautés".tr, // Display translated text
             style: theme.textTheme.headlineSmall, // Apply a specific text style
           ),
         ),
-        SizedBox(width: 5.h), // Add space between Text and IconButton
+        SizedBox(width: 0.h), // Add space between Text and IconButton
         IconButton(
           icon: const Icon(Icons.add_circle,
               color: Colors.black), // Display an icon

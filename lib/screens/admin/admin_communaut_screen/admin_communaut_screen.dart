@@ -58,8 +58,8 @@ class AdminCommunautScreenState extends State<AdminCommunautScreen> {
           ),
           Expanded(
             child: AppbarTitle(
-              text: "Gérer communauté".tr,
-              margin: EdgeInsets.only(left: 70.h, top: 2.v, right: 79.h),
+              text: "Gérer communautés".tr,
+              margin: EdgeInsets.only(left: 60.h, top: 2.v, right: 79.h),
             ),
           ),
         ],

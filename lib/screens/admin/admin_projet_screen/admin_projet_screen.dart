@@ -137,7 +137,7 @@ class AdminProjetScreenState extends State<AdminProjetScreen> {
             },
           ),
           AppbarTitle(
-            text: "Gérer Projet".tr,
+            text: "Gérer Projets".tr,
             margin: EdgeInsets.only(left: 80.h, right: 79.h),
           ),
         ],
