@@ -1,3 +1,5 @@
+![Image2](https://github.com/Ahmedchabaa/rifund_frontend_flutter_app/assets/88032284/02a5705a-91d4-4178-925a-548bcddc8cfe) 
+![Image3](https://github.com/Ahmedchabaa/rifund_frontend_flutter_app/assets/88032284/0f8b0ed9-d3ce-4104-a809-b7b3fd2646a5)
 # What is this
 
 An open source crowdfunding application named "Rifund" made for android/ios mobile and desktop.
