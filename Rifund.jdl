@@ -1,0 +1,150 @@
+application {
+  config {
+    baseName rifund,
+    authenticationType jwt,
+    applicationType monolith,
+    packageName com.rif.demo.fund,
+    buildTool maven,
+    databaseType sql,
+    prodDatabaseType postgresql,
+    devDatabaseType h2Memory,
+    clientFramework react,
+    enableTranslation true,
+    nativeLanguage ar-ly,
+    languages [en, es, fr, ar-ly, de, it],
+    testFrameworks [cypress]
+    
+  }
+    entities *
+}
+
+entity Address {
+  address String,
+  cite String,
+  statut String,
+  codePostal String,
+  numeroTelephone String,
+}
+
+
+
+entity Communaute {
+  Nom String required,
+  creerdA Instant,
+  de TextBlob required,
+  Image ImageBlob,
+  Role String 
+}
+
+entity CommunauteMembres {
+}
+
+entity CommunauteNotifications {
+  contenu String ,
+  envoyerA Instant
+}
+
+entity Categorie{
+  nom String required,
+}
+
+entity Contribution {
+  argant Double required,
+  nompaye String required,
+  creerA Instant,
+  modifierdA Instant,
+  anonymous Boolean required,
+  recompencer Boolean required
+}
+
+entity ContributionNotifications {
+  contenu String,
+  envoyerA Instant
+}
+
+
+entity CarteCredit {
+  numero Integer required,
+  nomPropretaire String,
+  cles Integer required,
+  dateexpiree LocalDate
+}
+
+entity Projet {
+  Titre String required,
+  objectif Double required,
+  videoUrl String,
+  localisation String,
+  creerA Instant,
+  modifierA Instant,
+  description TextBlob,
+  autresLiens String,
+  descriptiondebudget TextBlob,
+  duree Integer required,
+  administrateurNotes String,
+  Image ImageBlob,
+  statuts ProjetStatuts,
+  Idcommun UUID
+}
+
+entity ProjetImages {
+  image ImageBlob,
+}
+
+entity CompteProjet {
+  solde String,
+  numero Integer,
+  banque String
+}
+
+entity Recompence {
+  titre String required,
+  description String required,
+  valeurminimum Double required,
+  livreeA Instant,  
+  expireeA Instant,
+  contributionsmaximum Integer,
+  image ImageBlob
+}
+
+entity Utilisateurinf {
+  publicNom String required,
+  facebook String,
+  linkedIn String,
+  description TextBlob,
+  Image ImageBlob,
+  IdCommun UUID
+}
+
+enum ProjetStatuts {
+  Enattente,
+  Approuve,
+  Rejete,
+  Reussi,
+  Echoue
+}
+
+relationship OneToOne {
+  Communaute{communauteMembres} to CommunauteMembres,
+  Communaute{admin} to Utilisateurinf{communaute},
+  Address{utilisateurinf} to Utilisateurinf{address},
+  Contribution{contributionNotifications} to ContributionNotifications{contribution},
+  CarteCredit{utilisateurinf} to Utilisateurinf{cartecredit}
+}
+
+relationship OneToMany {
+  Projet{projectImages} to ProjetImages{projet},
+  Utilisateurinf{contributions} to Contribution{utilisateurinf},
+  Projet{contributions} to Contribution{projet},
+  CommunauteMembres{utilisateurinf} to Utilisateurinf{communauteMembres},
+  Communaute{projets} to Projet{communaute},
+  Communaute{communauteNotifications} to CommunauteNotifications{communaute},
+  Utilisateurinf{projet} to Projet{utilisateurinf},
+  Categorie{projet} to Projet{categorie},
+  Projet{compteprojet} to CompteProjet{projet},
+  Projet{recompence} to Recompence{projet}
+}
+
+dto * with mapstruct
+paginate all with pagination
+service all with serviceClass
