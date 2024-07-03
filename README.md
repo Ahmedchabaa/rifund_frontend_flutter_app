@@ -25,13 +25,15 @@ samples, guidance on mobile development, and a full API reference.
 
 3- VS code 1.90.0 
 
-To run this project you must run this commands: 
+#### To run this project you must run this commands: 
 
-1 - flutter pub get
+1 - rename the folder from "rifund_frontend_flutter_app" to "rifund"
 
-2 - flutter pub run flutter_launcher_icons -f main
+2 - flutter pub get
 
-3 - flutter run
+3 - flutter pub run flutter_launcher_icons -f main
+
+4 - flutter run
 
 # Who made this app 
 
