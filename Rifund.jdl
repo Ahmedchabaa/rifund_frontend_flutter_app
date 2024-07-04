@@ -8,7 +8,6 @@ application {
     databaseType sql,
     prodDatabaseType postgresql,
     devDatabaseType h2Memory,
-    clientFramework react,
     enableTranslation true,
     nativeLanguage ar-ly,
     languages [en, es, fr, ar-ly, de, it],
@@ -26,8 +25,6 @@ entity Address {
   numeroTelephone String,
 }
 
-
-
 entity Communaute {
   Nom String required,
   creerdA Instant,
@@ -37,6 +34,7 @@ entity Communaute {
 }
 
 entity CommunauteMembres {
+date Date,
 }
 
 entity CommunauteNotifications {
@@ -108,7 +106,10 @@ entity Recompence {
 }
 
 entity Utilisateurinf {
-  publicNom String required,
+  nom String required,
+  prenom String required,
+  email String required,
+  motdepasse String required,
   facebook String,
   linkedIn String,
   description TextBlob,
