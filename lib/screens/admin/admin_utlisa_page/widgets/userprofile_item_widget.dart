@@ -42,22 +42,23 @@ class _UserprofileItemWidgetState extends State<UserprofileItemWidget> {
             onPressed: _toggleChecked,
           ),
           SizedBox(width: 10.0), // Use .0 to ensure proper SizedBox syntax
-       
-  Container(
-  width: 110.0, // Set width to 110.0
-  margin: EdgeInsets.only(
-    left: 16.0, // Left margin of 16.0
-    top: 13.0, // Top margin of 13.0
-  ),
-  child: Text(
-    widget.userprofileItemModelObj.userEmail ?? 'No email provided',
-    overflow: TextOverflow.ellipsis, // Use ellipsis to indicate overflow
-    maxLines: 1, // Ensure the text is on a single line
-    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-      height: 1.40, // Line height set to 1.40
-    ),
-  ),
-),
+
+          Container(
+            width: 110.0, // Set width to 110.0
+            margin: EdgeInsets.only(
+              left: 16.0, // Left margin of 16.0
+              top: 13.0, // Top margin of 13.0
+            ),
+            child: Text(
+              widget.userprofileItemModelObj.userEmail ?? 'No email provided',
+              overflow:
+                  TextOverflow.ellipsis, // Use ellipsis to indicate overflow
+              maxLines: 1, // Ensure the text is on a single line
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    height: 1.40, // Line height set to 1.40
+                  ),
+            ),
+          ),
 
           Expanded(
             child: Container(), // Spacer to push delete icon to the right
@@ -77,29 +78,30 @@ class _UserprofileItemWidgetState extends State<UserprofileItemWidget> {
                   icon: Icon(Icons.delete, color: Colors.black),
                   alignment: Alignment.bottomRight,
                   onPressed: () {
-                     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Confirmation"),
-          content: Text("Voulez-vous supprimer ce utilisateur"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Perform delete operation here
-                Navigator.of(context).pop();
-              },
-              child: Text("Oui"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Annuler"),
-            ),
-          ],
-        );
-        });
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Confirmation"),
+                            content:
+                                Text("Voulez-vous supprimer cet utilisateur"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  // Perform delete operation here
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Oui"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Annuler"),
+                              ),
+                            ],
+                          );
+                        });
                   },
                 ),
               ],
