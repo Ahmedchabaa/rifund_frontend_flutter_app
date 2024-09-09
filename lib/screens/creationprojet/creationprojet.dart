@@ -92,31 +92,6 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                   child: Selector<CrErProjetProvider, CrErProjetModel?>(
                     selector: (context, provider) =>
                         provider.crErProjetModelObj,
-                    builder: (context, modifierProjetModelObj, child) {
-                      return CustomDropDown(
-                        icon: Container(
-                          child: CustomImageView(
-                            imagePath: ImageConstant.imgcrprojet,
-                            height: 15.adaptSize,
-                            width: 15.adaptSize,
-                          ),
-                        ),
-                        hintText: "lbl_localisation".tr,
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.h,
-                          vertical: 11.v,
-                        ),
-                        items: modifierProjetModelObj?.dropdownItemList1 ?? [],
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 18.v),
-                Padding(
-                  padding: EdgeInsets.only(right: 2.h),
-                  child: Selector<CrErProjetProvider, CrErProjetModel?>(
-                    selector: (context, provider) =>
-                        provider.crErProjetModelObj,
                     builder: (context, crErProjetModelObj, child) {
                       return CustomDropDown(
                         icon: Container(
@@ -405,8 +380,8 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
   /// Section Widget
   Widget _buildCreateButton(BuildContext context) {
     return CustomElevatedButton(
-     height: 36.v,
-        width: 114.h,
+      height: 36.v,
+      width: 114.h,
       text: "lbl_cr_er".tr,
       buttonTextStyle: CustomTextStyles.titleLargeInterOnPrimaryContainer,
       onPressed: () {

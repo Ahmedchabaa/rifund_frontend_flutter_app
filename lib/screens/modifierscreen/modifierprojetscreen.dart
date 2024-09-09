@@ -142,33 +142,6 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
                                 width: 15.adaptSize,
                               ),
                             ),
-                            hintText: "lbl_localisation".tr,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16.h,
-                              vertical: 11.v,
-                            ),
-                            items:
-                                modifierProjetModelObj?.dropdownItemList1 ?? [],
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 12.v),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.h),
-                      child: Selector<ModifierProjetProvider,
-                          ModifierProjetModel?>(
-                        selector: (context, provider) =>
-                            provider.modifierProjetModelObj,
-                        builder: (context, modifierProjetModelObj, child) {
-                          return CustomDropDown(
-                            icon: Container(
-                              child: CustomImageView(
-                                imagePath: ImageConstant.imgcrprojet,
-                                height: 15.adaptSize,
-                                width: 15.adaptSize,
-                              ),
-                            ),
                             hintText: "lbl_cat_gorie".tr,
                             contentPadding: EdgeInsets.symmetric(
                               horizontal: 16.h,
@@ -223,7 +196,7 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
           AppbarTitle(
             text: "Modifier projet".tr,
             margin: EdgeInsets.only(
-             left: 80.h,
+              left: 80.h,
               top: 2.v,
               right: 79.h,
             ),
