@@ -26,9 +26,7 @@ class ModifierCommunautScreen extends StatefulWidget {
     );
   }
 }
-// ignore_for_file: must_be_immutable
 
-// ignore_for_file: must_be_immutable
 class ModifierCommunautScreenState extends State<ModifierCommunautScreen> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 

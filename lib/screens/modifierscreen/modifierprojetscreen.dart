@@ -47,7 +47,7 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Spacer(),
+              SizedBox(height: 25.v),
               Container(
                 margin: EdgeInsets.only(
                   left: 26.h,
@@ -65,7 +65,7 @@ class ModifierProjetScreenState extends State<ModifierProjetScreen> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 4.v),
+                    SizedBox(height: 5.v),
                     Align(
                       alignment: Alignment.center,
                       child: Padding(
