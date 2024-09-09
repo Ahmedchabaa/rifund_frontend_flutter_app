@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
-import '../../core/app_export.dart';
-import '../../core/utils/validation_functions.dart';
-import '../../widgets/app_bar/appbar_title.dart';
+import 'package:provider/provider.dart';
+import '../../core/app_export.dart'; // Import app-specific configurations and utilities
+import '../../core/utils/validation_functions.dart'; // Import validation functions
+import '../../widgets/app_bar/appbar_title.dart'; // Custom widgets for AppBar
 import '../../widgets/app_bar/custom_app_bar.dart';
-import '../../widgets/custom_elevated_button.dart';
-import '../../widgets/custom_text_form_field.dart';
-import 'provider/se_connecter_provider.dart';
+import '../../widgets/custom_elevated_button.dart'; // Custom Elevated button
+import '../../widgets/custom_text_form_field.dart'; // Custom TextFormField widget
+import 'provider/se_connecter_provider.dart'; // Import SeConnecterProvider for state management
 
 class SeConnecterScreen extends StatefulWidget {
   const SeConnecterScreen({Key? key}) : super(key: key);
@@ -44,7 +44,6 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
                     child: SizedBox(
                       width: double.maxFinite,
                       child: Stack(
-                        // alignment: Alignment.topCenter,
                         children: [
                           Align(
                             alignment: Alignment.bottomCenter,
@@ -78,8 +77,7 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
                                       ),
                                       child: Text(
                                         "lbl_s_inscrire".tr,
-                                        style: CustomTextStyles
-                                            .titleSmallbBlackA700,
+                                        style: CustomTextStyles.titleSmallbBlackA700,
                                       ),
                                     ),
                                   )
@@ -143,111 +141,128 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
           ),
         ],
       ),
-      // styleType: Style.bgFill_1,
     );
   }
 
   Widget _buildLoginForm(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 8.h),
-      padding: EdgeInsets.symmetric(
-        horizontal: 17.h,
-        vertical: 20.v,
-      ),
-      decoration: AppDecoration.fillWhiteA.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder20,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "lbl_bienvenue".tr,
-            style: theme.textTheme.headlineMedium,
+  return Container(
+    margin: EdgeInsets.only(left: 8.h),
+    padding: EdgeInsets.symmetric(
+      horizontal: 17.h,
+      vertical: 20.v,
+    ),
+    decoration: AppDecoration.fillWhiteA.copyWith(
+      borderRadius: BorderRadiusStyle.roundedBorder20,
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "lbl_bienvenue".tr,
+          style: theme.textTheme.headlineMedium,
+        ),
+        SizedBox(height: 31.v),
+        
+        // Username field with validation
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 17.h),
+          child: Selector<SeConnecterProvider, TextEditingController?>(
+            selector: (context, provider) => provider.usernameoneController,
+            builder: (context, usernameoneController, child) {
+              return CustomTextFormField(
+                controller: usernameoneController,
+                hintText: "msg_nom_d_utilisateur".tr,
+                suffix: Container(
+                  margin: EdgeInsets.fromLTRB(30.h, 12.v, 13.h, 11.v),
+                  child: Icon(Icons.person),
+                  height: 17,
+                  width: 23,
+                ),
+                suffixConstraints: BoxConstraints(
+                  maxHeight: 50.v,
+                ),
+                contentPadding: EdgeInsets.only(
+                  left: 14.h,
+                  top: 17.v,
+                  bottom: 17.v,
+                ),
+                // Username validation
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Le nom d'utilisateur est requis".tr;
+                  } else if (value.length < 3) {
+                    return "Le nom d'utilisateur doit contenir au moins 3 caractères".tr;
+                  }
+                  return null;
+                },
+              );
+            },
           ),
-          SizedBox(height: 31.v),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.h),
-            child: Selector<SeConnecterProvider, TextEditingController?>(
-              selector: (context, provider) => provider.usernameoneController,
-              builder: (context, usernameoneController, child) {
-                return CustomTextFormField(
-                  controller: usernameoneController,
-                  hintText: "msg_nom_d_utilisateur".tr,
-                  suffix: Container(
-                    margin: EdgeInsets.fromLTRB(30.h, 12.v, 13.h, 11.v),
-                    child: Icon(Icons.person),
+        ),
+        SizedBox(height: 12.v),
+        
+        // Password field (already existing)
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 17.h),
+          child: Consumer<SeConnecterProvider>(
+            builder: (context, provider, child) {
+              return CustomTextFormField(
+                controller: provider.passwordoneController,
+                hintText: "lbl_mot_de_passe".tr,
+                textInputAction: TextInputAction.done,
+                textInputType: TextInputType.visiblePassword,
+                suffix: InkWell(
+                  onTap: () {
+                    provider.changePasswordVisibility();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(30.h, 13.v, 13.h, 10.v),
+                    child: Icon(Icons.lock),
                     height: 17,
                     width: 23,
                   ),
-                  suffixConstraints: BoxConstraints(
-                    maxHeight: 50.v,
-                  ),
-                  contentPadding: EdgeInsets.only(
-                    left: 14.h,
-                    top: 17.v,
-                    bottom: 17.v,
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(height: 24.v),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.h),
-            child: Consumer<SeConnecterProvider>(
-              builder: (context, provider, child) {
-                return CustomTextFormField(
-                  controller: provider.passwordoneController,
-                  hintText: "lbl_mot_de_passe".tr,
-                  textInputAction: TextInputAction.done,
-                  textInputType: TextInputType.visiblePassword,
-                  suffix: InkWell(
-                    onTap: () {
-                      provider.changePasswordVisibility();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(30.h, 13.v, 13.h, 10.v),
-                      child: Icon(Icons.lock),
-                      height: 17,
-                      width: 23,
-                    ),
-                  ),
-                  suffixConstraints: BoxConstraints(
-                    maxHeight: 50.v,
-                  ),
-                  validator: (value) {
-                    if (value == null ||
-                        (!isValidPassword(value, isRequired: true))) {
-                      return "err_msg_please_enter_valid_password".tr;
-                    }
-                    return null;
-                  },
-                  obscureText: provider.isShowPassword,
-                  contentPadding: EdgeInsets.only(
-                    left: 14.h,
-                    top: 17.v,
-                    bottom: 17.v,
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(height: 12.v),
-          CustomElevatedButton(
-            alignment: Alignment.center,
-            width: 120.h,
-            height: 40.v,
-            buttonTextStyle: TextStyle(color: Colors.white),
-            text: "lbl_se_connecter".tr,
-            margin: EdgeInsets.only(
-              left: 25.h,
-              right: 20.h,
-            ),
-            onPressed: () {
-              onTapSeconnecter(context);
+                ),
+                suffixConstraints: BoxConstraints(
+                  maxHeight: 50.v,
+                ),
+                obscureText: provider.isShowPassword,
+                contentPadding: EdgeInsets.only(
+                  left: 14.h,
+                  top: 17.v,
+                  bottom: 17.v,
+                ),
+                // Password validation
+                validator: (value) {
+                  if (value == null || (!isValidPassword(value, isRequired: true))) {
+                    return "Mot de passe invalide".tr;
+                  }
+                  return null;
+                },
+              );
             },
           ),
-          SizedBox(height: 9.v),
+        ),
+        SizedBox(height: 12.v),
+        
+        // Login button (already existing)
+        CustomElevatedButton(
+          alignment: Alignment.center,
+          width: 120.h,
+          height: 40.v,
+          buttonTextStyle: TextStyle(color: Colors.white),
+          text: "lbl_se_connecter".tr,
+          margin: EdgeInsets.only(
+            left: 25.h,
+            right: 20.h,
+          ),
+          onPressed: () {
+            if (_formKey.currentState?.validate() ?? false) {
+              onTapSeconnecter(context);
+            }
+          },
+        ),
+        SizedBox(height: 9.v),
+        SizedBox(height: 9.v),
           GestureDetector(
             onTap: () {
               onTapTxtMotdepasse(context);
@@ -285,7 +300,7 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
               ],
             ),
           ),
-          SizedBox(height: 5.v),
+ SizedBox(height: 5.v),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -313,6 +328,14 @@ class SeConnecterScreenState extends State<SeConnecterScreen> {
       ),
     );
   }
+
+// Helper function for validating email
+bool isValidEmail(String email) {
+  final RegExp regex = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  return regex.hasMatch(email);
+}
+
 
   void onTapTxtSinscrire(BuildContext context) {
     NavigatorService.pushNamed(AppRoutes.crErUnCompteScreen);

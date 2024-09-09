@@ -1,7 +1,7 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:rifund/screens/listeprojets/listeprojets.dart';
-
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
@@ -13,10 +13,7 @@ import 'models/modelcrprojet.dart';
 import 'provider/cr_er_projet_provider.dart';
 
 class CrErProjetScreen extends StatefulWidget {
-  const CrErProjetScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const CrErProjetScreen({Key? key}) : super(key: key);
 
   @override
   CrErProjetScreenState createState() => CrErProjetScreenState();
@@ -27,9 +24,9 @@ class CrErProjetScreen extends StatefulWidget {
     );
   }
 }
-// ignore_for_file: must_be_immutable
 
 class CrErProjetScreenState extends State<CrErProjetScreen> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
@@ -44,78 +41,80 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
         backgroundColor: theme.colorScheme.onPrimaryContainer,
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
-        body: SingleChildScrollView(
-          child: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(
-              horizontal: 27.h,
-              vertical: 16.v,
-            ),
-            child: Column(
-              children: [
-                Align(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 5.h),
-                    child: Text(
-                      "msg_creation_du_projet".tr,
-                      style: theme.textTheme.headlineLarge,
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(
+                horizontal: 27.h,
+                vertical: 16.v,
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 5.h),
+                      child: Text(
+                        "msg_creation_du_projet".tr,
+                        style: theme.textTheme.headlineLarge,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 18.v),
-                Text(
-                  "msg_cr_er_votre_projet".tr,
-                  style: CustomTextStyles.titleLargeInterSemiBold,
-                ),
-                SizedBox(height: 18.v),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 11.h),
-                    child: Text(
-                      "msg_remplir_la_formulaire".tr,
-                      style: CustomTextStyles.bodyMediumBlack900,
+                  SizedBox(height: 18.v),
+                  Text(
+                    "msg_cr_er_votre_projet".tr,
+                    style: CustomTextStyles.titleLargeInterSemiBold,
+                  ),
+                  SizedBox(height: 18.v),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 11.h),
+                      child: Text(
+                        "msg_remplir_la_formulaire".tr,
+                        style: CustomTextStyles.bodyMediumBlack900,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 18.v),
-                _buildProjectTitle(context),
-                SizedBox(height: 18.v),
-                _buildDescriptionValue(context),
-                SizedBox(height: 18.v),
-                _buildProjectImages(context),
-                _buildStackinputand(context),
-                _buildDate(context),
-                SizedBox(height: 18.v),
-                Padding(
-                  padding: EdgeInsets.only(right: 2.h),
-                  child: Selector<CrErProjetProvider, CrErProjetModel?>(
-                    selector: (context, provider) =>
-                        provider.crErProjetModelObj,
-                    builder: (context, crErProjetModelObj, child) {
-                      return CustomDropDown(
-                        icon: Container(
-                          child: CustomImageView(
-                            imagePath: ImageConstant.imgcrprojet,
-                            height: 15.adaptSize,
-                            width: 15.adaptSize,
+                  SizedBox(height: 18.v),
+                  _buildProjectTitle(context),
+                  SizedBox(height: 18.v),
+                  _buildDescriptionValue(context),
+                  SizedBox(height: 18.v),
+                  _buildProjectImages(context),
+                  SizedBox(height: 18.v),
+                  _buildDate(context),
+                  SizedBox(height: 18.v),
+                  Padding(
+                    padding: EdgeInsets.only(right: 2.h),
+                    child: Selector<CrErProjetProvider, CrErProjetModel?>(
+                      selector: (context, provider) => provider.crErProjetModelObj,
+                      builder: (context, crErProjetModelObj, child) {
+                        return CustomDropDown(
+                          icon: Container(
+                            child: CustomImageView(
+                              imagePath: ImageConstant.imgcrprojet,
+                              height: 15.adaptSize,
+                              width: 15.adaptSize,
+                            ),
                           ),
-                        ),
-                        hintText: "lbl_cat_gorie".tr,
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.h,
-                          vertical: 11.v,
-                        ),
-                        items: crErProjetModelObj?.dropdownItemList1 ?? [],
-                      );
-                    },
+                          hintText: "lbl_cat_gorie".tr,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16.h,
+                            vertical: 11.v,
+                          ),
+                          items: crErProjetModelObj?.dropdownItemList1 ?? [],
+                        );
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(height: 18.v),
-                _buildCompte(context),
-                SizedBox(height: 18.v),
-                _buildCreateButton(context),
-              ],
+                  SizedBox(height: 18.v),
+                  _buildCompte(context),
+                  SizedBox(height: 18.v),
+                  _buildCreateButton(context),
+                ],
+              ),
             ),
           ),
         ),
@@ -164,6 +163,7 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
               horizontal: 16.h,
               vertical: 11.v,
             ),
+            validator: validateProjectTitle,
           );
         },
       ),
@@ -184,6 +184,7 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
               horizontal: 16.h,
               vertical: 11.v,
             ),
+            validator: validateDescription,
           );
         },
       ),
@@ -206,6 +207,10 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                   horizontal: 16.h,
                   vertical: 11.v,
                 ),
+                validator: (value) {
+                  // Custom validation if needed
+                  return null;
+                },
               ),
               Positioned(
                 top: 0,
@@ -213,29 +218,20 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                 bottom: 0,
                 child: GestureDetector(
                   onTap: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
+                    FilePickerResult? result = await FilePicker.platform.pickFiles(
                       type: FileType.image,
                       allowMultiple: true,
                     );
                     if (result != null) {
-                      List<String> paths =
-                          result.paths.map((path) => path!).toList();
-                      // Handle the selected images here, you can save paths to use later
-                      List<String> fileNames =
-                          result.files.map((file) => file.name ?? '').toList();
+                      List<String> paths = result.paths.map((path) => path!).toList();
+                      List<String> fileNames = result.files.map((file) => file.name ?? '').toList();
                       print('Selected images: $paths');
-                      print(
-                          'Selected image names: $fileNames'); // Print the names of selected files
-                      // You can use fileNames to display the names in the UI
+                      print('Selected image names: $fileNames');
                     }
                   },
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-                    child: Icon(
-                      Icons.add_photo_alternate,
-                    ),
+                    padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+                    child: Icon(Icons.add_photo_alternate),
                   ),
                 ),
               ),
@@ -248,19 +244,23 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
 
   /// Section Widget
   Widget _buildBudgetValue(BuildContext context) {
-    return Selector<CrErProjetProvider, TextEditingController?>(
-      selector: (context, provider) => provider.budgetValueController,
-      builder: (context, budgetValueController, child) {
-        return CustomTextFormField(
-          width: 143.h,
-          controller: budgetValueController,
-          hintText: "lbl_budget".tr,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.h,
-            vertical: 11.v,
-          ),
-        );
-      },
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 2.h),
+      child: Selector<CrErProjetProvider, TextEditingController?>(
+        selector: (context, provider) => provider.budgetValueController,
+        builder: (context, budgetValueController, child) {
+          return CustomTextFormField(
+            width: 143.h,
+            controller: budgetValueController,
+            hintText: "lbl_budget".tr,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.h,
+              vertical: 11.v,
+            ),
+            validator: validateBudget,
+          );
+        },
+      ),
     );
   }
 
@@ -271,81 +271,36 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
       child: Selector<CrErProjetProvider, TextEditingController?>(
         selector: (context, provider) => provider.dateController,
         builder: (context, dateController, child) {
-          return CustomTextFormField(
-            controller: dateController,
-            hintText: "lbl_date".tr,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.h,
-              vertical: 11.v,
-            ),
-            suffix: Container(
-              padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-              child: Icon(
-                Icons.calendar_month,
+          return GestureDetector(
+            onTap: () async {
+              DateTime? selectedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2101),
+              );
+              if (selectedDate != null) {
+                dateController?.text = "${selectedDate.toLocal()}".split(' ')[0];
+              }
+            },
+            child: AbsorbPointer(
+              child: CustomTextFormField(
+                controller: dateController,
+                hintText: "lbl_date".tr,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16.h,
+                  vertical: 11.v,
+                ),
+                suffix: Container(
+                  padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+                  child: Icon(Icons.calendar_today),
+                ),
+                textInputAction: TextInputAction.done,
+                validator: validateDate,
               ),
             ),
-            textInputAction: TextInputAction.done,
           );
         },
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildStackinputand(BuildContext context) {
-    return SizedBox(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              height: 60.v,
-              width: 143.h,
-              margin: EdgeInsets.only(bottom: 19.v),
-              decoration: BoxDecoration(),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 2.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildBudgetValue(context),
-                      Selector<CrErProjetProvider, CrErProjetModel?>(
-                        selector: (context, provider) =>
-                            provider.crErProjetModelObj,
-                        builder: (context, crErProjetModelObj, child) {
-                          return CustomDropDown(
-                            width: 152.h,
-                            icon: Container(
-                              child: CustomImageView(
-                                imagePath: ImageConstant.imgcrprojet,
-                                height: 15.adaptSize,
-                                width: 15.adaptSize,
-                              ),
-                            ),
-                            hintText: "lbl_devise".tr,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16.h,
-                              vertical: 11.v,
-                            ),
-                            items: crErProjetModelObj?.dropdownItemList ?? [],
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
       ),
     );
   }
@@ -356,20 +311,15 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
       padding: EdgeInsets.symmetric(horizontal: 2.h),
       child: Selector<CrErProjetProvider, TextEditingController?>(
         selector: (context, provider) => provider.comptefinancecontroller,
-        builder: (context, dateController, child) {
+        builder: (context, compteController, child) {
           return CustomTextFormField(
-            controller: dateController,
+            controller: compteController,
             hintText: "Numéro du compte courant".tr,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16.h,
               vertical: 11.v,
             ),
-            // suffix: Container(
-            //   padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-            //   child: Icon(
-            //     Icons.calendar_month,
-            //   ),
-            // ),
+            validator: validateAccountNumber,
             textInputAction: TextInputAction.done,
           );
         },
@@ -385,18 +335,59 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
       text: "lbl_cr_er".tr,
       buttonTextStyle: CustomTextStyles.titleLargeInterOnPrimaryContainer,
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ListeDesProjetsPage()),
-        );
+        if (_formKey.currentState?.validate() ?? false) {
+          // Process the form data
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ListeDesProjetsPage()),
+          );
+        }
       },
     );
   }
 
-  /// Section Widget
+  /// Validation functions
+  String? validateProjectTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Le titre du projet est requis';
+    }
+    return null;
+  }
 
-  /// Navigates to the previous screen.
-  onTapArrowleftone(BuildContext context) {
-    NavigatorService.goBack();
+  String? validateDescription(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'La description est requise';
+    }
+    return null;
+  }
+
+  String? validateBudget(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Le budget est requis';
+    }
+    if (double.tryParse(value) == null) {
+      return 'Veuillez entrer un montant valide';
+    }
+    return null;
+  }
+
+  String? validateDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'La date est requise';
+    }
+    // Add more date validation logic if needed
+    return null;
+  }
+
+  String? validateAccountNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Le numéro de compte est requis';
+    }
+    return null;
+  }
+
+  /// Navigation functions
+  void onTapArrowleftone(BuildContext context) {
+    Navigator.pop(context);
   }
 }

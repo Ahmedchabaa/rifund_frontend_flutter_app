@@ -9,13 +9,11 @@ import '../../widgets/custom_text_form_field.dart';
 import 'provider/mot_de_passe_oublier_provider.dart';
 
 class MotDePasseOublierScreen extends StatefulWidget {
-  const MotDePasseOublierScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const MotDePasseOublierScreen({Key? key}) : super(key: key);
 
   @override
   MotDePasseOublierScreenState createState() => MotDePasseOublierScreenState();
+
   static Widget builder(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MotDePasseOublierProvider(),
@@ -25,6 +23,8 @@ class MotDePasseOublierScreen extends StatefulWidget {
 }
 
 class MotDePasseOublierScreenState extends State<MotDePasseOublierScreen> {
+  final _formKey = GlobalKey<FormState>(); // Add Form key to manage form state
+
   @override
   void initState() {
     super.initState();
@@ -44,29 +44,28 @@ class MotDePasseOublierScreenState extends State<MotDePasseOublierScreen> {
           ),
           child: Column(
             children: [
-             Align(
-               alignment: Alignment.center,
+              Align(
+                alignment: Alignment.center,
                 child: Text(
                   "msg_mot_de_passe_oubli2".tr,
                   style: CustomTextStyles.titleLargeExtraBold,
                 ),
               ),
               SizedBox(height: 20.v),
-          Container(
-           margin: EdgeInsets.only(
-             left: 17,
-          right: 40,
-            ),
-          child: Text(
-           "Entrez votre email pour recevoir un mot de passe de réinitialisation par email.",
-              overflow: TextOverflow.visible,
-          style: CustomTextStyles.bodyMediumLight,
-  ),
-),
-
+              Container(
+                margin: EdgeInsets.only(
+                  left: 17,
+                  right: 40,
+                ),
+                child: Text(
+                  "Entrez votre email pour recevoir un mot de passe de réinitialisation par email.",
+                  overflow: TextOverflow.visible,
+                  style: CustomTextStyles.bodyMediumLight,
+                ),
+              ),
               SizedBox(height: 28.v),
               _buildLoginForm(context),
-              SizedBox(height: 5.v)
+              SizedBox(height: 5.v),
             ],
           ),
         ),
@@ -96,7 +95,6 @@ class MotDePasseOublierScreenState extends State<MotDePasseOublierScreen> {
           ),
         ],
       ),
-      // styleType: Style.bgFill_1,
     );
   }
 
@@ -112,73 +110,88 @@ class MotDePasseOublierScreenState extends State<MotDePasseOublierScreen> {
       decoration: AppDecoration.outlineLightGreen.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder20,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 47.v),
-          Container(
-            child: Selector<MotDePasseOublierProvider, TextEditingController?>(
-              selector: (context, provider) => provider.emailController,
-              builder: (context, emailController, child) {
-                return CustomTextFormField(
-                  controller: emailController,
-                  hintText: "lbl_email".tr,
-                  suffix: Container(
-                    margin: EdgeInsets.fromLTRB(30.h, 7.v, 10.h, 7.v),
-                    child: Icon(
-                      Icons.mail,
+      child: Form(
+        key: _formKey, // Use the form key to manage validation
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 47.v),
+            Container(
+              child: Selector<MotDePasseOublierProvider, TextEditingController?>(
+                selector: (context, provider) => provider.emailController,
+                builder: (context, emailController, child) {
+                  return CustomTextFormField(
+                    controller: emailController,
+                    hintText: "lbl_email".tr,
+                    suffix: Container(
+                      margin: EdgeInsets.fromLTRB(30.h, 7.v, 10.h, 7.v),
+                      child: Icon(Icons.mail),
+                      height: 17,
+                      width: 23,
                     ),
-                    height: 17,
-                    width: 23,
-                  ),
-                  suffixConstraints: BoxConstraints(
-                    maxHeight: 50.v,
-                  ),
-                  contentPadding: EdgeInsets.only(
-                    left: 14.h,
-                    top: 17.v,
-                    bottom: 17.v,
-                  ),
-                );
+                    suffixConstraints: BoxConstraints(
+                      maxHeight: 50.v,
+                    ),
+                    contentPadding: EdgeInsets.only(
+                      left: 14.h,
+                      top: 17.v,
+                      bottom: 17.v,
+                    ),
+                    // Add validation
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Veuillez entrer un email".tr;
+                      }
+                      if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$").hasMatch(value)) {
+                        return "Adresse email invalide".tr;
+                      }
+                      return null;
+                    },
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 20.v),
+            CustomElevatedButton(
+              width: 100.h,
+              height: 40.v,
+              text: "lbl_envoyer".tr,
+              buttonTextStyle: theme.textTheme.labelLarge!,
+              onPressed: () {
+                if (_formKey.currentState?.validate() ?? false) {
+                  // Proceed with further actions, like sending a password reset email
+                  // _sendPasswordResetEmail(context);
+                }
               },
             ),
-          ),
-          SizedBox(height: 20.v),
-          CustomElevatedButton(
-            width: 100.h,
-             height: 40.v,
-            text: "lbl_envoyer".tr,
-            buttonTextStyle: theme.textTheme.labelLarge!,
-          ),
-          SizedBox(height: 50.v),
-          Text(
-            "msg_vous_avez_d_j_un".tr,
-            style: theme.textTheme.titleSmall,
-          ),
-          SizedBox(height: 7.v),
-          GestureDetector(
-            onTap: () {
-              onTapTxtSeconnecter(context);
-            },
-            child: Text(
-              "lbl_se_connecter".tr,
-              style: CustomTextStyles.titleSmallLightgreen600,
+            SizedBox(height: 50.v),
+            Text(
+              "msg_vous_avez_d_j_un".tr,
+              style: theme.textTheme.titleSmall,
             ),
-          )
-        ],
+            SizedBox(height: 7.v),
+            GestureDetector(
+              onTap: () {
+                onTapTxtSeconnecter(context);
+              },
+              child: Text(
+                "lbl_se_connecter".tr,
+                style: CustomTextStyles.titleSmallLightgreen600,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 
-  /// Navigates to the seConnecterScreen when the action is triggered.
-  onTapImage(BuildContext context) {
+  /// Navigates to the previous screen when the action is triggered.
+  void onTapImage(BuildContext context) {
     NavigatorService.goBack();
   }
 
   /// Navigates to the seConnecterScreen when the action is triggered.
-  onTapTxtSeconnecter(BuildContext context) {
-    NavigatorService.pushNamed(
-      AppRoutes.seConnecterScreen,
-    );
+  void onTapTxtSeconnecter(BuildContext context) {
+    NavigatorService.pushNamed(AppRoutes.seConnecterScreen);
   }
 }
