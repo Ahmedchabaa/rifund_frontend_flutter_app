@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rifund/screens/profile_screen/profile_screen.dart';
 
 import '../../core/app_export.dart';
@@ -11,14 +12,11 @@ import '../../widgets/custom_text_form_field.dart';
 import 'provider/modifier_motdepasse_provider.dart';
 
 class ModifierMotdepasseScreen extends StatefulWidget {
-  const ModifierMotdepasseScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const ModifierMotdepasseScreen({Key? key}) : super(key: key);
 
   @override
-  ModifierMotdepasseScreenState createState() =>
-      ModifierMotdepasseScreenState();
+  ModifierMotdepasseScreenState createState() => ModifierMotdepasseScreenState();
+  
   static Widget builder(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ModifierMotdepasseProvider(),
@@ -28,7 +26,7 @@ class ModifierMotdepasseScreen extends StatefulWidget {
 }
 
 class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>(); // Added GlobalKey for form validation
 
   @override
   void initState() {
@@ -42,64 +40,62 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
         backgroundColor: appTheme.whiteA700,
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
-        body: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 59.v),
-              Container(
-                width: 308.h,
-                margin: EdgeInsets.only(
-                  left: 30.h,
-                  right: 20.h,
-                ),
-                padding: EdgeInsets.all(26.h),
-                decoration: AppDecoration.outlinePrimary1.copyWith(
-                  borderRadius: BorderRadiusStyle.roundedBorder20,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "msg_changer_mot_de_passe".tr,
-                      style: theme.textTheme.titleLarge,
-                    ),
-                    SizedBox(height: 6.v),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 241.h,
-                        margin: EdgeInsets.only(right: 13.h),
-                        child: Text(
-                          "msg_votre_mot_de_passe".tr,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: CustomTextStyles.titleSmallMedium,
+        body: SingleChildScrollView(
+          child: Form( // Wrapped Column with Form
+            key: _formKey, // Added GlobalKey for form validation
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 59.v),
+                Container(
+                  width: 308.h,
+                  margin: EdgeInsets.only(left: 30.h, right: 20.h),
+                  padding: EdgeInsets.all(26.h),
+                  decoration: AppDecoration.outlinePrimary1.copyWith(
+                    borderRadius: BorderRadiusStyle.roundedBorder20,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "msg_changer_mot_de_passe".tr,
+                        style: theme.textTheme.titleLarge,
+                      ),
+                      SizedBox(height: 6.v),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 241.h,
+                          margin: EdgeInsets.only(right: 13.h),
+                          child: Text(
+                            "msg_votre_mot_de_passe".tr,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: CustomTextStyles.titleSmallMedium,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 52.v),
-                    _buildEnterPassword(context),
-                    SizedBox(height: 21.v),
-                    _buildEnterPassword1(context),
-                    SizedBox(height: 20.v),
-                    _buildRepetezLe(context),
-                    SizedBox(height: 46.v),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildModifier(context),
-                        SizedBox(width: 10.h), // Adjust spacing between buttons
-                        _buildAnnuler(context),
-                      ],
-                    ),
-                  ],
+                      SizedBox(height: 52.v),
+                      _buildEnterPassword(context),
+                      SizedBox(height: 21.v),
+                      _buildEnterPassword1(context),
+                      SizedBox(height: 20.v),
+                      _buildRepetezLe(context),
+                      SizedBox(height: 46.v),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildModifier(context),
+                          SizedBox(width: 10.h), // Adjust spacing between buttons
+                          _buildAnnuler(context),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              // Spacer()
-            ],
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomNavBar(),
@@ -120,11 +116,7 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
           ),
           AppbarTitle(
             text: "msg_changer_mot_de_passe".tr,
-            margin: EdgeInsets.only(
-              left: 50.h,
-              top: 2.v,
-              right: 75.h,
-            ),
+            margin: EdgeInsets.only(left: 50.h, top: 2.v, right: 75.h),
           ),
         ],
       ),
@@ -139,12 +131,16 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
         selector: (context, provider) => provider.enterPasswordController,
         builder: (context, enterPasswordController, child) {
           return CustomTextFormField(
-            // onChanged: (value) {
-            //   // Traitement du changement de texte ici
-            // },
             controller: enterPasswordController,
             hintText: "msg_saisir_votre_mot".tr,
             hintStyle: theme.textTheme.bodyMedium!,
+            obscureText: true, // Hide password input
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Veuillez entrer votre mot de passe actuel';
+              }
+              return null;
+            },
           );
         },
       ),
@@ -161,7 +157,14 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
             controller: enterPassword1Controller,
             hintText: "msg_saisir_nouveau_mot".tr,
             hintStyle: theme.textTheme.bodyMedium!,
-            textInputAction: TextInputAction.done,
+            obscureText: true, // Hide password input
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Veuillez entrer un nouveau mot de passe';
+              }
+              return null;
+            },
+            textInputAction: TextInputAction.next,
           );
         },
       ),
@@ -178,6 +181,16 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
             controller: RepetezLeController,
             hintText: "Repetez nouveau mot de passe".tr,
             hintStyle: theme.textTheme.bodyMedium!,
+            obscureText: true, // Hide password input
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Veuillez répéter le nouveau mot de passe';
+              }
+              if (value != context.read<ModifierMotdepasseProvider>().enterPassword1Controller.text) {
+                return 'Les mots de passe ne correspondent pas';
+              }
+              return null;
+            },
             textInputAction: TextInputAction.done,
           );
         },
@@ -191,13 +204,14 @@ class ModifierMotdepasseScreenState extends State<ModifierMotdepasseScreen> {
       width: 117.h,
       text: "lbl_modifier".tr,
       margin: EdgeInsets.only(top: 1.v),
-      buttonTextStyle:
-          CustomTextStyles.titleSmallPrimary.copyWith(color: Colors.white),
+      buttonTextStyle: CustomTextStyles.titleSmallPrimary.copyWith(color: Colors.white),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProfileScreen()),
-        );
+        if (_formKey.currentState?.validate() ?? false) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ProfileScreen()),
+          );
+        }
       },
     );
   }

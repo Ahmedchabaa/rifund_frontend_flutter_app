@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../../../core/app_export.dart';
-import '../models/ajout_cat_gorie_model.dart';
 
-/// A provider class for the AjoutCatGoriePage.
-///
-/// This provider manages the state of the AjoutCatGoriePage, including the
-/// current ajoutCatGorieModelObj
-// ignore_for_file: must_be_immutable
-
-// ignore_for_file: must_be_immutable
 class AjoutCatGorieProvider extends ChangeNotifier {
-  TextEditingController categorynameController = TextEditingController();
-  TextEditingController webUrlController = TextEditingController();
-  AjoutCatGorieModel ajoutCatGorieModelObj = AjoutCatGorieModel();
+  TextEditingController? categorynameController = TextEditingController();
 
+  // Method to validate the category name input
+  String? validateCategoryName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Le nom de catégorie ne peut pas être vide'; // Field is empty
+    } else if (value.length < 3) {
+      return 'Le nom de catégorie doit comporter au moins 3 caractères'; // Name is too short
+    }
+    return null; // Input is valid
+  }
+
+  // Dispose controllers when not needed
   @override
   void dispose() {
+    categorynameController?.dispose();
     super.dispose();
-    categorynameController.dispose();
-    webUrlController.dispose();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rifund/screens/admin/admin_cat_gorie_screen/admin_cat_gorie_screen.dart';
-import 'package:rifund/screens/admin/profile_admin_page/profile_admin_page.dart';
 
 import '../../../core/app_export.dart';
 import '../../../theme/custom_button_style.dart';
@@ -28,6 +28,8 @@ class AjoutCatGoriePage extends StatefulWidget {
 }
 
 class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
+  final _formKey = GlobalKey<FormState>(); // Form key to manage validation
+
   @override
   void initState() {
     super.initState();
@@ -42,27 +44,29 @@ class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
         resizeToAvoidBottomInset: false,
         body: SizedBox(
           width: double.maxFinite,
-          child: Column(
-            children: [
-              SizedBox(height: 54.v),
-              Text("msg_ajouter_cat_gorie".tr,
-                  style: TextStyle(
-                    color: Colors.lightGreen.shade600, // Setting text color
-                    fontSize: 24.0, // Setting font size
-                    fontWeight: FontWeight.w700, // Making text bold
-                    fontStyle: FontStyle.italic,
-                  )),
-              SizedBox(height: 59.v),
-              _buildAddCategory(context),
-              SizedBox(height: 5.v)
-            ],
+          child: Form(
+            key: _formKey, // Wrap form elements with Form widget
+            child: Column(
+              children: [
+                SizedBox(height: 54.v),
+                Text("msg_ajouter_cat_gorie".tr,
+                    style: TextStyle(
+                      color: Colors.lightGreen.shade600,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.italic,
+                    )),
+                SizedBox(height: 59.v),
+                _buildAddCategory(context),
+                SizedBox(height: 5.v),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       centerTitle: true,
@@ -88,7 +92,6 @@ class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
     );
   }
 
-  /// Section Widget
   Widget _buildAddCategory(BuildContext context) {
     return Container(
       width: 299.h,
@@ -114,21 +117,17 @@ class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
                   hintText: "msg_nom_de_categorie".tr,
                   hintStyle: CustomTextStyles.bodyMediumThin,
                   textInputAction: TextInputAction.done,
+                  validator: (value) {
+                    return context
+                        .read<AjoutCatGorieProvider>()
+                        .validateCategoryName(value); // Call validation
+                  },
                   suffix: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.v, horizontal: 20.h),
-                    child: Icon(
-                      Icons.extension,
-                    ),
+                    padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 20.h),
+                    child: Icon(Icons.extension),
                   ),
-                  suffixConstraints: BoxConstraints(
-                    maxHeight: 50.v,
-                  ),
-                  contentPadding: EdgeInsets.only(
-                    left: 24.h,
-                    top: 17.v,
-                    bottom: 17.v,
-                  ),
+                  suffixConstraints: BoxConstraints(maxHeight: 50.v),
+                  contentPadding: EdgeInsets.only(left: 24.h, top: 17.v, bottom: 17.v),
                   borderDecoration: TextFormFieldStyleHelper.outlineLightGreen,
                   filled: true,
                   fillColor: appTheme.whiteA700,
@@ -140,7 +139,7 @@ class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
           Padding(
             padding: EdgeInsets.only(left: 10.h),
             child: Selector<AjoutCatGorieProvider, TextEditingController?>(
-              selector: (context, provider) => provider.webUrlController,
+              selector: (context, provider) => provider.categorynameController,
               builder: (context, webUrlController, child) {
                 return CustomTextFormField(
                   controller: webUrlController,
@@ -148,39 +147,25 @@ class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
                   hintStyle: CustomTextStyles.bodyMediumThin,
                   textInputAction: TextInputAction.done,
                   suffix: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+                    padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
                     child: IconButton(
                       icon: const Icon(Icons.add_photo_alternate),
                       onPressed: () async {
-                        FilePickerResult? result =
-                            await FilePicker.platform.pickFiles(
+                        FilePickerResult? result = await FilePicker.platform.pickFiles(
                           type: FileType.image,
                           allowMultiple: true,
                         );
                         if (result != null) {
-                          List<String> paths =
-                              result.paths.map((path) => path!).toList();
-                          // Handle the selected images here, you can save paths to use later
-                          List<String> fileNames = result.files
-                              .map((file) => file.name ?? '')
-                              .toList();
+                          List<String> paths = result.paths.map((path) => path!).toList();
+                          List<String> fileNames = result.files.map((file) => file.name ?? '').toList();
                           print('Selected images: $paths');
-                          print(
-                              'Selected image names: $fileNames'); // Print the names of selected files
-                          // You can use fileNames to display the names in the UI
+                          print('Selected image names: $fileNames');
                         }
                       },
                     ),
                   ),
-                  suffixConstraints: BoxConstraints(
-                    maxHeight: 50.v,
-                  ),
-                  contentPadding: EdgeInsets.only(
-                    left: 24.h,
-                    top: 17.v,
-                    bottom: 17.v,
-                  ),
+                  suffixConstraints: BoxConstraints(maxHeight: 50.v),
+                  contentPadding: EdgeInsets.only(left: 24.h, top: 17.v, bottom: 17.v),
                 );
               },
             ),
@@ -200,11 +185,13 @@ class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
                   text: "lbl_valider".tr,
                   buttonTextStyle: CustomTextStyles.titleSmallWhiteA700,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AdminCatGorieScreen()),
-                    );
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AdminCatGorieScreen()),
+                      );
+                    }
                   },
                 ),
                 CustomElevatedButton(
@@ -226,7 +213,6 @@ class AjoutCatGoriePageState extends State<AjoutCatGoriePage> {
     );
   }
 
-  /// Navigates to the previous screen.
   onTapArrowleftone(BuildContext context) {
     NavigatorService.goBack();
   }

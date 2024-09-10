@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rifund/screens/liste_de_communaut_page/liste_de_communaut_page.dart';
 
 import '../../core/app_export.dart';
@@ -12,13 +13,11 @@ import '../../widgets/custom_text_form_field.dart';
 import 'provider/cr_er_communaut_provider.dart';
 
 class CrErCommunautScreen extends StatefulWidget {
-  const CrErCommunautScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const CrErCommunautScreen({Key? key}) : super(key: key);
 
   @override
   CrErCommunautScreenState createState() => CrErCommunautScreenState();
+  
   static Widget builder(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => CrErCommunautProvider(),
@@ -26,16 +25,9 @@ class CrErCommunautScreen extends StatefulWidget {
     );
   }
 }
-// ignore_for_file: must_be_immutable
 
-// ignore_for_file: must_be_immutable
 class CrErCommunautScreenState extends State<CrErCommunautScreen> {
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,59 +36,59 @@ class CrErCommunautScreenState extends State<CrErCommunautScreen> {
         backgroundColor: appTheme.whiteA700,
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
-        body: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            children: [
-              SizedBox(height: 54.v),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.h),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12.h,
-                  vertical: 33.v,
-                ),
-                decoration: AppDecoration.outlineLightGreen.copyWith(
-                  borderRadius: BorderRadiusStyle.roundedBorder20,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(height: 34.v),
-                    SizedBox(
-                      width: 156.h,
-                      child: Text(
-                        "msg_cr_er_communaut".tr,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.headlineSmall,
+        body: Form(
+          key: _formKey,
+          child: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              children: [
+                SizedBox(height: 54.v),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.h,
+                    vertical: 33.v,
+                  ),
+                  decoration: AppDecoration.outlineLightGreen.copyWith(
+                    borderRadius: BorderRadiusStyle.roundedBorder20,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 34.v),
+                      SizedBox(
+                        width: 156.h,
+                        child: Text(
+                          "msg_cr_er_communaut".tr,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headlineSmall,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20.v),
-                    _buildCreateCommunity(context),
-                    SizedBox(height: 16.v),
-                    _buildDescriptionValue(context),
-                    SizedBox(height: 17.v),
-                    _buildWebUrl(context),
-                    SizedBox(height: 29.v),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 13.h,
-                        right: 18.h,
+                      SizedBox(height: 20.v),
+                      _buildCreateCommunity(context),
+                      SizedBox(height: 16.v),
+                      _buildDescriptionValue(context),
+                      SizedBox(height: 17.v),
+                      _buildWebUrl(context),
+                      SizedBox(height: 29.v),
+                      Padding(
+                        padding: EdgeInsets.only(left: 13.h, right: 18.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildCreateButton(context),
+                            _buildCancelButton(context),
+                          ],
+                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildCreateButton(context),
-                          _buildCancelButton(context)
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 5.v)
-                  ],
+                      SizedBox(height: 5.v)
+                    ],
+                  ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomNavBar(),
@@ -129,7 +121,6 @@ class CrErCommunautScreenState extends State<CrErCommunautScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildCreateCommunity(BuildContext context) {
     return Selector<CrErCommunautProvider, TextEditingController?>(
       selector: (context, provider) => provider.createCommunityController,
@@ -137,18 +128,21 @@ class CrErCommunautScreenState extends State<CrErCommunautScreen> {
         return CustomTextFormField(
           controller: createCommunityController,
           hintText: "msg_cr_er_le_nom_de".tr,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Le nom de la communauté est requis.";
+            }
+            return null;
+          },
           suffix: Container(
             padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-            child: Icon(
-              Icons.people,
-            ),
+            child: Icon(Icons.people),
           ),
         );
       },
     );
   }
 
-  /// Section Widget
   Widget _buildDescriptionValue(BuildContext context) {
     return Selector<CrErCommunautProvider, TextEditingController?>(
       selector: (context, provider) => provider.descriptionValueController,
@@ -156,13 +150,17 @@ class CrErCommunautScreenState extends State<CrErCommunautScreen> {
         return CustomTextFormField(
           controller: descriptionValueController,
           hintText: "lbl_description".tr,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "La description est requise.";
+            }
+            return null;
+          },
         );
       },
     );
   }
 
-  /// Section Widget
-  /// Section Widget
   Widget _buildWebUrl(BuildContext context) {
     return Selector<CrErCommunautProvider, TextEditingController?>(
       selector: (context, provider) => provider.webUrlController,
@@ -188,21 +186,15 @@ class CrErCommunautScreenState extends State<CrErCommunautScreen> {
                   if (result != null) {
                     List<String> paths =
                         result.paths.map((path) => path!).toList();
-                    // Handle the selected images here, you can save paths to use later
                     List<String> fileNames =
                         result.files.map((file) => file.name ?? '').toList();
                     print('Selected images: $paths');
-                    print(
-                        'Selected image names: $fileNames'); // Print the names of selected files
-                    // You can use fileNames to display the names in the UI
+                    print('Selected image names: $fileNames');
                   }
                 },
                 child: Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-                  child: Icon(
-                    Icons.add_photo_alternate,
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+                  child: Icon(Icons.add_photo_alternate),
                 ),
               ),
             ),
@@ -212,30 +204,30 @@ class CrErCommunautScreenState extends State<CrErCommunautScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildCreateButton(BuildContext context) {
     return Expanded(
       child: CustomElevatedButton(
         text: "lbl_cr_er".tr,
-      height: 36.v,
+        height: 36.v,
         width: 117.h,
         margin: EdgeInsets.only(right: 12.h),
         buttonTextStyle: CustomTextStyles.labelLargeWhiteA700,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ListeDeCommunautPage()),
-          );
+          if (_formKey.currentState!.validate()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ListeDeCommunautPage()),
+            );
+          }
         },
       ),
     );
   }
 
-  /// Section Widget
   Widget _buildCancelButton(BuildContext context) {
     return Expanded(
       child: CustomElevatedButton(
-           height: 36.v,
+        height: 36.v,
         width: 117.h,
         text: "lbl_annuler".tr,
         margin: EdgeInsets.only(left: 12.h),
@@ -247,8 +239,6 @@ class CrErCommunautScreenState extends State<CrErCommunautScreen> {
       ),
     );
   }
-
-  /// Section Widget
 
   void onTapImage(BuildContext context) {
     NavigatorService.goBack();

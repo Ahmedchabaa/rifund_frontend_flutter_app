@@ -15,10 +15,7 @@ import 'provider/financer_projet_provider.dart';
 const List<String> list = <String>['DT', '£', '€', 'Four'];
 
 class FinancerProjetScreen extends StatefulWidget {
-  const FinancerProjetScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const FinancerProjetScreen({Key? key}) : super(key: key);
 
   @override
   FinancerProjetScreenState createState() => FinancerProjetScreenState();
@@ -29,10 +26,9 @@ class FinancerProjetScreen extends StatefulWidget {
     );
   }
 }
-// ignore_for_file: must_be_immutable
 
-// ignore_for_file: must_be_immutable
 class FinancerProjetScreenState extends State<FinancerProjetScreen> {
+  final _formKey = GlobalKey<FormState>(); // Added GlobalKey for form validation
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
@@ -47,23 +43,25 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
         backgroundColor: appTheme.whiteA700,
         appBar: _buildAppBar(context),
         resizeToAvoidBottomInset: false,
-        body: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 54.v),
-              Text("Financer Projet".tr,
-                  style: TextStyle(
-                    color: Colors.lightGreen.shade600, // Setting text color
-                    fontSize: 24.0, // Setting font size
-                    fontWeight: FontWeight.w700, // Making text bold
-                    fontStyle: FontStyle.italic,
-                  )),
-              SizedBox(height: 30.v),
-              _buildColumnfullname(context),
-              Spacer(),
-            ],
+        body: SingleChildScrollView( // Added SingleChildScrollView for scrolling
+          child: Form(
+            key: _formKey, // Wrapped with Form widget
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 54.v),
+                Text("Financer Projet".tr,
+                    style: TextStyle(
+                      color: Colors.lightGreen.shade600,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.italic,
+                    )),
+                SizedBox(height: 30.v),
+                _buildColumnfullname(context),
+                SizedBox(height: 20.v), // Added margin to ensure space
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomNavBar(),
@@ -71,7 +69,6 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
     );
   }
 
-  /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       centerTitle: true,
@@ -97,7 +94,6 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildFullNameOne(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.h),
@@ -113,13 +109,18 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
                 Icons.person,
               ),
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Veuillez entrer votre nom et prénom';
+              }
+              return null;
+            },
           );
         },
       ),
     );
   }
 
-  /// Section Widget
   Widget _buildNumberOne(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.h),
@@ -135,13 +136,19 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
                 Icons.credit_card,
               ),
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Veuillez entrer un numéro';
+              }
+              return null;
+            },
           );
         },
       ),
     );
   }
 
-  Widget _buildCodesccret(BuildContext context) {
+  Widget _buildCodescret(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 6.h),
       child: Selector<FinancerProjetProvider, TextEditingController?>(
@@ -156,6 +163,12 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
                 Icons.lock,
               ),
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Veuillez entrer un code secret';
+              }
+              return null;
+            },
           );
         },
       ),
@@ -177,13 +190,18 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
                 Icons.calendar_month,
               ),
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Veuillez entrer une date d\'expiration';
+              }
+              return null;
+            },
           );
         },
       ),
     );
   }
 
-  /// Section Widget
   Widget _buildBudgetValueOne(BuildContext context) {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 0.h),
@@ -194,12 +212,17 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
               width: 120.h,
               controller: budgetValueOneController,
               hintText: "lbl_budget".tr,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Veuillez entrer un budget';
+                }
+                return null;
+              },
             );
           },
         ));
   }
 
-  /// Section Widget
   Widget _buildSauvgarder(BuildContext context) {
     return CustomElevatedButton(
       height: 45.v,
@@ -207,15 +230,16 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
       text: "lbl_sauvgarder".tr,
       buttonTextStyle: CustomTextStyles.labelLargeWhiteA700,
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AcceuilClientPage()),
-        );
+        if (_formKey.currentState?.validate() ?? false) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AcceuilClientPage()),
+          );
+        }
       },
     );
   }
 
-  /// Section Widget
   Widget _buildAnnuler(BuildContext context) {
     return CustomElevatedButton(
       height: 45.v,
@@ -230,7 +254,6 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildColumnfullname(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.h),
@@ -250,7 +273,7 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
           SizedBox(height: 9.v),
           _buildNumberOne(context),
           SizedBox(height: 9.v),
-          _buildCodesccret(context),
+          _buildCodescret(context),
           SizedBox(height: 9.v),
           _buildDateexp(context),
           SizedBox(height: 18.v),
@@ -266,17 +289,16 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
                   builder: (context, financerProjetModelObj, child) {
                     return CustomDropDown(
                       width: 120.h,
-                      
                       icon: CustomImageView(
                         imagePath: ImageConstant.imgcrprojet,
                         height: 15.adaptSize,
                         width: 15.adaptSize,
                       ),
                       hintText: "Devise".tr,
-                           contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16.h,
-                              vertical: 15.v,
-                            ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.h,
+                        vertical: 15.v,
+                      ),
                       items: financerProjetModelObj?.dropdownItemList ?? [],
                     );
                   },
@@ -300,7 +322,6 @@ class FinancerProjetScreenState extends State<FinancerProjetScreen> {
     );
   }
 
-  /// Navigates to the previous screen.
   onTapArrowleftone(BuildContext context) {
     NavigatorService.goBack();
   }
