@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:rifund/screens/listeprojets/listeprojets.dart';
+
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
@@ -84,12 +84,15 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                   SizedBox(height: 18.v),
                   _buildProjectImages(context),
                   SizedBox(height: 18.v),
+                  _buildDeviseValue(context),
+                  SizedBox(height: 18.v),
                   _buildDate(context),
                   SizedBox(height: 18.v),
                   Padding(
                     padding: EdgeInsets.only(right: 2.h),
                     child: Selector<CrErProjetProvider, CrErProjetModel?>(
-                      selector: (context, provider) => provider.crErProjetModelObj,
+                      selector: (context, provider) =>
+                          provider.crErProjetModelObj,
                       builder: (context, crErProjetModelObj, child) {
                         return CustomDropDown(
                           icon: Container(
@@ -218,19 +221,23 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                 bottom: 0,
                 child: GestureDetector(
                   onTap: () async {
-                    FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
                       type: FileType.image,
                       allowMultiple: true,
                     );
                     if (result != null) {
-                      List<String> paths = result.paths.map((path) => path!).toList();
-                      List<String> fileNames = result.files.map((file) => file.name ?? '').toList();
+                      List<String> paths =
+                          result.paths.map((path) => path!).toList();
+                      List<String> fileNames =
+                          result.files.map((file) => file.name ?? '').toList();
                       print('Selected images: $paths');
                       print('Selected image names: $fileNames');
                     }
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
                     child: Icon(Icons.add_photo_alternate),
                   ),
                 ),
@@ -264,6 +271,39 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
     );
   }
 
+  Widget _buildDeviseValue(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 6.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildBudgetValue (context),
+          Selector<CrErProjetProvider, CrErProjetModel?>(
+            selector: (context, provider) => provider.crErProjetModelObj,
+            builder: (context, crErProjetModelObj, child) {
+              return CustomDropDown(
+                width: 116.h,
+                icon: Container(
+                  child: CustomImageView(
+                    imagePath: ImageConstant.imgcrprojet,
+                    height: 15.adaptSize,
+                    width: 15.adaptSize,
+                  ),
+                ),
+                hintText: "lbl_devise".tr,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16.h,
+                  vertical: 11.v,
+                ),
+                items: crErProjetModelObj?.dropdownItemList1 ?? [],
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   /// Section Widget
   Widget _buildDate(BuildContext context) {
     return Padding(
@@ -280,7 +320,8 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                 lastDate: DateTime(2101),
               );
               if (selectedDate != null) {
-                dateController?.text = "${selectedDate.toLocal()}".split(' ')[0];
+                dateController?.text =
+                    "${selectedDate.toLocal()}".split(' ')[0];
               }
             },
             child: AbsorbPointer(
@@ -292,7 +333,8 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
                   vertical: 11.v,
                 ),
                 suffix: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
                   child: Icon(Icons.calendar_today),
                 ),
                 textInputAction: TextInputAction.done,
