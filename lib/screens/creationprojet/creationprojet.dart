@@ -311,36 +311,14 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
       child: Selector<CrErProjetProvider, TextEditingController?>(
         selector: (context, provider) => provider.dateController,
         builder: (context, dateController, child) {
-          return GestureDetector(
-            onTap: () async {
-              DateTime? selectedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2101),
-              );
-              if (selectedDate != null) {
-                dateController?.text =
-                    "${selectedDate.toLocal()}".split(' ')[0];
-              }
-            },
-            child: AbsorbPointer(
-              child: CustomTextFormField(
-                controller: dateController,
-                hintText: "lbl_date".tr,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.h,
-                  vertical: 11.v,
-                ),
-                suffix: Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 8.v, horizontal: 10.h),
-                  child: Icon(Icons.calendar_today),
-                ),
-                textInputAction: TextInputAction.done,
-                validator: validateDate,
-              ),
+          return CustomTextFormField(
+            controller: dateController,
+            hintText: "lbl_date".tr,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.h,
+              vertical: 11.v,
             ),
+            validator: validateDate,
           );
         },
       ),
@@ -352,17 +330,16 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.h),
       child: Selector<CrErProjetProvider, TextEditingController?>(
-        selector: (context, provider) => provider.comptefinancecontroller,
+        selector: (context, provider) => provider.compteController,
         builder: (context, compteController, child) {
           return CustomTextFormField(
             controller: compteController,
-            hintText: "Numéro du compte courant".tr,
+            hintText: "Numero de compte".tr,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16.h,
               vertical: 11.v,
             ),
             validator: validateAccountNumber,
-            textInputAction: TextInputAction.done,
           );
         },
       ),
@@ -378,7 +355,7 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
       buttonTextStyle: CustomTextStyles.titleLargeInterOnPrimaryContainer,
       onPressed: () {
         if (_formKey.currentState?.validate() ?? false) {
-          // Process the form data
+          // Process the form data if validation is successful
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => ListeDesProjetsPage()),
@@ -388,10 +365,17 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
     );
   }
 
-  /// Validation functions
+  void onTapArrowleftone(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  // Validators
   String? validateProjectTitle(String? value) {
     if (value == null || value.isEmpty) {
       return 'Le titre du projet est requis';
+    }
+    if (value.length < 3) {
+      return 'Le titre du projet doit contenir au moins 3 caractères';
     }
     return null;
   }
@@ -417,7 +401,7 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
     if (value == null || value.isEmpty) {
       return 'La date est requise';
     }
-    // Add more date validation logic if needed
+    // Optionally, add a custom date format check here if needed
     return null;
   }
 
@@ -426,10 +410,5 @@ class CrErProjetScreenState extends State<CrErProjetScreen> {
       return 'Le numéro de compte est requis';
     }
     return null;
-  }
-
-  /// Navigation functions
-  void onTapArrowleftone(BuildContext context) {
-    Navigator.pop(context);
   }
 }
