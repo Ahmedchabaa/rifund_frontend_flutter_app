@@ -21,7 +21,7 @@ class CrErProjetProvider extends ChangeNotifier {
 
   TextEditingController dateController = TextEditingController();
 
-  TextEditingController comptefinancecontroller = TextEditingController();
+  TextEditingController compteController = TextEditingController();
 
   CrErProjetModel crErProjetModelObj = CrErProjetModel();
 
@@ -33,7 +33,7 @@ class CrErProjetProvider extends ChangeNotifier {
     projectImagesController.dispose();
     budgetValueController.dispose();
     dateController.dispose();
-    comptefinancecontroller.dispose();
+   compteController.dispose();
   }
 
   onSelected(dynamic value) {
