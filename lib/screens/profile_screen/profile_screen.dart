@@ -28,6 +28,8 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  TextEditingController _linkController = TextEditingController();
+  List<String> links = [];
 
   @override
   void initState() {
@@ -145,13 +147,10 @@ class ProfileScreenState extends State<ProfileScreen> {
               );
               if (result != null) {
                 List<String> paths = result.paths.map((path) => path!).toList();
-                // Handle the selected images here, you can save paths to use later
                 List<String> fileNames =
                     result.files.map((file) => file.name ?? '').toList();
                 print('Selected images: $paths');
-                print(
-                    'Selected image names: $fileNames'); // Print the names of selected files
-                // You can use fileNames to display the names in the UI
+                print('Selected image names: $fileNames');
               }
             },
           ),
@@ -182,16 +181,12 @@ class ProfileScreenState extends State<ProfileScreen> {
             "Nom :".tr,
             style: theme.textTheme.bodyLarge,
           ),
-          SizedBox(
-            width: 20,
-          ),
+          SizedBox(width: 20),
           Text(
             "imen missaoui".tr,
             style: theme.textTheme.bodyLarge,
           ),
-          SizedBox(
-            width: 95,
-          ),
+          SizedBox(width: 95),
           IconButton(
             icon: Icon(Icons.chevron_right, color: Colors.black),
             onPressed: () {
@@ -224,16 +219,12 @@ class ProfileScreenState extends State<ProfileScreen> {
             "Email:".tr,
             style: theme.textTheme.bodyLarge,
           ),
-          SizedBox(
-            width: 20,
-          ),
+          SizedBox(width: 20),
           Text(
             "imenmissaoui08@gmail.com".tr,
             style: theme.textTheme.bodyLarge,
           ),
-          SizedBox(
-            width: 35,
-          ),
+          SizedBox(width: 35),
         ],
       ),
     );
@@ -259,24 +250,20 @@ class ProfileScreenState extends State<ProfileScreen> {
                 "Liens :".tr,
                 style: theme.textTheme.bodyLarge,
               ),
-              SizedBox(
-                width: 55,
-              ),
-              Text(
-                "lbl_facebook_com".tr,
-                style: theme.textTheme.bodyLarge,
+              SizedBox(width: 55),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: links
+                      .map((link) => Text(link, style: theme.textTheme.bodyLarge))
+                      .toList(),
+                ),
               ),
             ],
           ),
-          Text(
-            "lbl_linkedline_com".tr,
-            style: theme.textTheme.bodyLarge,
-          ),
           Row(
             children: [
-              SizedBox(
-                width: 110,
-              ),
+              SizedBox(width: 110),
               Text(
                 "lbl_ajouter_lien".tr,
                 style: theme.textTheme.bodyMedium,
@@ -284,7 +271,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               IconButton(
                 icon: Icon(Icons.add, color: Colors.black),
                 onPressed: () {
-                  // Add your onPressed logic here
+                  _showAddLinkDialog(context);
                 },
               ),
             ],
@@ -292,6 +279,58 @@ class ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  void _showAddLinkDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Ajouter un lien"),
+          content: TextField(
+            controller: _linkController,
+            decoration: InputDecoration(
+              hintText: "Entrez l'URL du lien",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Annuler"),
+            ),
+            TextButton(
+              onPressed: () {
+                String link = _linkController.text;
+                if (_isValidUrl(link)) {
+                  setState(() {
+                    links.add(link);
+                  });
+                  _linkController.clear();
+                  Navigator.of(context).pop();
+                } else {
+                  // Affichez un message d'erreur si l'URL est invalide
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Lien invalide. Veuillez entrer une URL valide."),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+              child: Text("Ajouter"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Fonction pour vérifier la validité de l'URL
+  bool _isValidUrl(String url) {
+    final Uri? uri = Uri.tryParse(url);
+    return uri != null && (uri.scheme == 'http' || uri.scheme == 'https');
   }
 
   Widget _buildBio(BuildContext context) {
@@ -306,24 +345,19 @@ class ProfileScreenState extends State<ProfileScreen> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Mot de passe:".tr,
+            "lbl_mot_de_passe".tr,
             style: theme.textTheme.bodyLarge,
           ),
-          SizedBox(
-            width: 60,
-          ),
+          SizedBox(width: 15),
           Text(
-            "lbl2".tr,
+            "••••••••••".tr,
             style: theme.textTheme.bodyLarge,
-          ),
-          SizedBox(
-            width: 10,
           ),
           IconButton(
             icon: Icon(Icons.chevron_right, color: Colors.black),
-            alignment: Alignment.topRight,
             onPressed: () {
               Navigator.push(
                 context,
@@ -337,11 +371,13 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void onTapArrowLeftOne(BuildContext context) {
-    NavigatorService.goBack();
+  onTapArrowLeftOne(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
-  void onTapBio(BuildContext context) {
-    // Implement your navigation logic here
+  @override
+  void dispose() {
+    _linkController.dispose();
+    super.dispose();
   }
 }
